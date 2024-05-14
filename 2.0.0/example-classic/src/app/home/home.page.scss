@@ -1,0 +1,164 @@
+.hidden {
+  opacity: 0;
+}
+
+.labelRowSelphi {
+  height: 25%;
+}
+
+.imgRowSelphi {
+  height: 25%;
+}
+
+.buttonRowSdk {
+  height: 10%;
+}
+
+.labelColSelphi {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.imgColSelphi {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  background-color: #e8e6e6;
+  border-radius: 10px;
+}
+
+.buttonColSdk {
+  display: flex;
+  justify-content: center;
+  margin: 1%;
+  align-items: center;
+}
+
+.buttonSdk {
+  border-color: var(--ion-color-bluefp);
+  --border-radius: 20px;
+  width: 50%;
+  font-size: 1.1em;
+  text-transform: capitalize;
+  font-family: 'Circular Std Bold' !important;
+}
+
+.imageSelphi {
+  --border-radius: 10px;
+}
+
+.labelTitleSelphi {
+  width: 100%;
+  text-align: center;
+  font-size: 1.6em;
+  font-family: 'Circular Std Bold' !important;
+}
+
+.labelMessageSelphi {
+  width: 100%;
+  text-align: center;
+  font-size: 1.6em;
+  color: var(--ion-color-bluefp);
+  font-family: 'Circular Std Bold' !important;
+}
+
+.labelMessageErrorSelphi {
+  width: 100%;
+  text-align: center;
+  font-size: 1em;
+  color: var(--ion-color-danger);
+  font-family: 'Circular Std Bold' !important;
+}
+
+.imageRowSelphid {
+  height: 22%;
+}
+
+.titleRowSelphid {
+  height: 7%;
+}
+
+.listRowSelphid {
+  //height: 30%;
+  margin-top: 5%;
+}
+
+.errorRowSdk {
+  height: 10%;
+  margin-top: 5%;
+}
+
+.buttonRowSelphid {
+  height: 10%;
+  margin-top: 5%;
+}
+
+.documentImgColSelphid {
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  background-color: #e8e6e6;
+  border-radius: 10px;
+}
+
+.titleColSelphid {
+  display: flex;
+  justify-content: center;
+  margin: 1%;
+  align-items: center;
+}
+
+.listColSelphid {
+  display: list-item;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5em;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.buttonColSelphid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 5em;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.buttonSelphid {
+  border-color: var(--ion-color-purplefp);
+  --border-radius: 20px;
+  width: 60%;
+  font-size: 1.1em;
+  text-transform: capitalize;
+  font-family: 'Circular Std Bold' !important;
+}
+
+.labelTitleSelphid {
+  width: 100%;
+  text-align: center;
+  font-size: 1.3rem;
+  font-family: 'Circular Std Bold' !important;
+}
+
+.labelMessageSelphid {
+  width: 100%;
+  text-align: center;
+  font-size: 1.6em;
+  color: var(--ion-color-purplefp);
+  font-family: 'Circular Std Bold' !important;
+}
+
+.labelMessageErrorSelphid {
+  width: 100%;
+  text-align: center;
+  font-size: 1em;
+  color: var(--ion-color-purplefp);
+  font-family: 'Circular Std Bold' !important;
+}
