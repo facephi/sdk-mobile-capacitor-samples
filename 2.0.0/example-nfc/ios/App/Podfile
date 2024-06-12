@@ -1,0 +1,54 @@
+platform :ios, '13.0'
+
+plugin 'cocoapods-art', :sources => ['cocoa-dev-fphi']
+source 'https://cdn.cocoapods.org/'
+
+use_frameworks!
+
+# workaround to avoid Xcode caching of Pods that requires
+# Product -> Clean Build Folder after new Cordova plugins installed
+# Requires CocoaPods 1.6 or newer
+install! 'cocoapods', :disable_input_output_paths => true
+
+def capacitor_pods
+  pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
+  pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
+  pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
+  pod 'CapacitorHaptics', :path => '../../node_modules/@capacitor/haptics'
+  pod 'CapacitorKeyboard', :path => '../../node_modules/@capacitor/keyboard'
+  pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
+  pod 'FacephiSdkCoreCapacitor', :path => '../../../sdk-core'
+  pod 'FacephiSdkNfcCapacitor', :path => '../../../sdk-nfc'
+end
+
+target 'App' do
+  capacitor_pods
+  # Add your Pods here
+end
+
+post_install do |installer|
+#  installer.pods_project.targets.each do |target|
+#    if target.respond_to?(:product_type) and target.product_type == "org.cocoapods.zipzap"
+#      target.build_configurations.each do |config|
+#          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+#      end
+#    end
+    
+#    if target.respond_to?(:product_type) and target.product_type == "org.cocoapods.TFLTensorFlowLite"
+#      target.build_configurations.each do |config|
+#          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+#      end
+#    end
+    #org.cocoapods.Protobuf
+    #org.cocoapods.FBLPromises
+#  end
+
+    ### EVITA CAMBIAR EL IOS DEVELOPMENT TARGET DE LOS PODS.
+    installer.generated_projects.each do |project|
+      project.targets.each do |target|
+        target.build_configurations.each do |config|
+            config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+         end
+      end
+    end
+end
