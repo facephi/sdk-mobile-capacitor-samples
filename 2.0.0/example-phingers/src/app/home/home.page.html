@@ -1,0 +1,42 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="bluefp">
+      <ion-title class="labelTitleSelphi">
+          Sdk Mobile
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid [style.height.%]="isListExpanded ? 150 : 100">
+        <ion-row style="height: 25%"></ion-row>
+        <ion-row class="buttonRowSdk">
+            <ion-col size="1"></ion-col>
+            <ion-col size="10" class="buttonColSdk">
+                <ion-button class="buttonSdk" (click)='onLaunchPhingersProcess()' color="bluefp">Phingers</ion-button>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+        </ion-row>
+        <ion-row class="buttonRowSdk">
+            <ion-col size="1"></ion-col>
+            <ion-col size="10" class="buttonColSdk">
+                <ion-button class="buttonSdk" (click)='onInitSession()' color="bluefp">InitSession</ion-button>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+        </ion-row>
+        <ion-row class="buttonRowSdk">
+            <ion-col size="1"></ion-col>
+            <ion-col size="10" class="buttonColSdk">
+                <ion-button class="buttonSdk" (click)='onInitOperation()' color="bluefp">InitOperation</ion-button>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+        </ion-row>
+        <ion-row class="buttonRowSdk">
+            <ion-col size="1"></ion-col>
+            <ion-col size="10" class="buttonColSdk">
+                <ion-button class="buttonSdk" (click)='onCloseSession()' color="bluefp">CloseSession</ion-button>
+            </ion-col>
+            <ion-col size="1"></ion-col>
+        </ion-row>
+        <ion-row style="height: 25%"></ion-row>
+    </ion-grid>
+</ion-content>

@@ -1,0 +1,30 @@
+[
+	{
+		"pkg": "@capacitor/app",
+		"classpath": "com.capacitorjs.plugins.app.AppPlugin"
+	},
+	{
+		"pkg": "@capacitor/haptics",
+		"classpath": "com.capacitorjs.plugins.haptics.HapticsPlugin"
+	},
+	{
+		"pkg": "@capacitor/keyboard",
+		"classpath": "com.capacitorjs.plugins.keyboard.KeyboardPlugin"
+	},
+	{
+		"pkg": "@capacitor/status-bar",
+		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
+	},
+	{
+		"pkg": "sdk-core",
+		"classpath": "com.sdkmobile.core.SdkCorePlugin"
+	},
+	{
+		"pkg": "sdk-tracking",
+		"classpath": "com.sdkmobile.tracking.SdkTrackingPlugin"
+	},
+	{
+		"pkg": "sdk-videoid",
+		"classpath": "com.sdkmobile.videoid.SdkVideoIdPlugin"
+	}
+]
