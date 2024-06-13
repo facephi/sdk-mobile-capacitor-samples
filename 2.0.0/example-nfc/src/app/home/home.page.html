@@ -9,7 +9,7 @@
 <ion-content>
     <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
         <ion-grid>
-            <ion-row *ngIf="showError" class="errorRowSelphid">
+            <ion-row *ngIf="message != ''" class="errorRowSelphid">
                 <ion-col class='titleColSelphid'>
                     <ion-label style="color: crimson;" class='labelTitleSelphid'>{{message}}</ion-label>
                 </ion-col>

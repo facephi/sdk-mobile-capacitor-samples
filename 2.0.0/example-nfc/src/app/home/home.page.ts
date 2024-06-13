@@ -38,7 +38,6 @@ export class HomePage
     nfcService: NfcService,
     coreService: CoreService,
     apiRest: FacephiService,
-    private loadingCtrl: LoadingController,
     private changeDetection: ChangeDetectorRef
   ) 
   {
@@ -54,33 +53,6 @@ export class HomePage
     toggle[0].setAttribute("color-theme", "light");
   }
 
-  onLaunchFlow = async () => 
-  {
-    this.message = '';
-      
-    /* se agrega el nuevo método que escucha los eventos 
-    this.listener = SdkCore.addListener('core.flow', (response: any) => {
-      console.log('core.flow was fired');
-      console.log("core.flow:", response);
-    });*/
-
-    await this.coreService.initFlow()
-    .then(async (result: CoreResult) => 
-    {
-      if (result.finishStatus == SdkFinishStatus.Ok)
-      {
-        await this.nfcService.setNfcFlow()
-          .then((res: NfcResult) => console.log("setNfcFlow res", res))
-          .catch((err) => console.log("setNfcFlow err", err));
-
-        await this.coreService.startFlow()
-          .then((res: CoreResult) => console.log("startFlow res", res))
-          .catch((err) => console.log("startFlow err", err));
-      }
-    }, 
-    (err: any) => console.log(err));
-  }
-
   onLaunchTokenize = async () => {
     this.message = '';
     await this.coreService.tokenize()
@@ -90,7 +62,15 @@ export class HomePage
   onInitSession = async () => {
     this.message = '';
     await this.coreService.initSession()
-    .then((result: CoreResult) => console.log(result), (err: any) => console.log(err));
+    .then((result: CoreResult) => {
+      console.log(result);
+      if (result.finishStatus == SdkFinishStatus.Error) {
+        this.printError(result);
+      }
+    }, (err: any) => console.log(err))
+    .finally(() => {
+      this.changeDetection.detectChanges()
+    });
   }
 
   onCloseSession = async () => {
@@ -112,7 +92,15 @@ export class HomePage
   onLaunchInitOperationProcess = async () => {
     this.message = '';
     await this.coreService.initOperation()
-    .then((result: CoreResult) => console.log(result), (err: string) => console.log(err));
+    .then((result: CoreResult) => {
+      console.log(result);
+      if (result.finishStatus == SdkFinishStatus.Error) {
+        this.printError(result);
+      }
+    }, (err: any) => console.log(err))
+    .finally(() => {
+      this.changeDetection.detectChanges()
+    });
   }
 
   private printError(data: any)
