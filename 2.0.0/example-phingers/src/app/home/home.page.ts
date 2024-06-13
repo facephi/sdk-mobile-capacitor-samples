@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { PhingersService } from '../services/phingers/phingers.service';
 import { CoreService } from '../services/core/core.service';
-import { SdkErrorType, CoreResult } from '@facephi/sdk-core-capacitor';
+import { SdkErrorType, CoreResult, SdkFinishStatus } from '@facephi/sdk-core-capacitor';
 import { fphi_str_activity_result_error, fphi_str_camera_error, fphi_str_camera_permission_denied, fphi_str_component_controller_application_error, fphi_str_component_controller_error, fphi_str_extractor_license_error, fphi_str_generic_bad_extractor_conf, fphi_str_generic_control_not_initialized, fphi_str_generic_extraction_license, fphi_str_generic_unexpected_captured, fphi_str_hardware_error, fphi_str_init_proccess_error, fphi_str_init_session_error, fphi_str_initialization_error, fphi_str_license_checker_error_invalid_component_license, fphi_str_license_checker_error_invalid_license, fphi_str_license_string_error, fphi_str_licensing_error_api_key_forbidden, fphi_str_licensing_error_app_id_invalid, fphi_str_licensing_error_license_not_found, fphi_str_licensing_error_package_name, fphi_str_network_connection, fphi_str_nfc_error, fphi_str_nfc_error_data, fphi_str_nfc_error_disabled, fphi_str_nfc_error_illegal_argument, fphi_str_nfc_error_not_supported, fphi_str_nfc_error_tag_lost, fphi_str_no_data_error, fphi_str_no_operation_created_error, fphi_str_permission_denied, fphi_str_phacturas_capture_error, fphi_str_phingers_autofocus_failure, fphi_str_phingers_camera_failure, fphi_str_phingers_capture_failure, fphi_str_phingers_configuration_failure, fphi_str_phingers_fingerprint_capture_failure, fphi_str_phingers_fingerprint_template_io_error, fphi_str_phingers_licensing_failure, fphi_str_phingers_liveness_failure, fphi_str_phingers_no_detected, fphi_str_phingers_unique_userid_not_specified, fphi_str_qr_capture_error, fphi_str_qr_generation_error, fphi_str_resourses_not_found, fphi_str_sdk_init_flow, fphi_str_sdk_not_initialized, fphi_str_settings_permission_denied, fphi_str_stopped_manually, fphi_str_timeout, fphi_str_token_error, fphi_str_tracking_error, fphi_str_unknown_error, fphi_str_video_error } from '../constants';
 import { PhingersResult } from '@facephi/sdk-phingers-capacitor';
 
@@ -18,16 +18,9 @@ export class HomePage {
   coreService: CoreService
   phingersService: PhingersService;
 
-  message = '';
-  bestImageCropped?: string = null;
-  tokenFaceImage?: string = null;
-  bestImage?: string = null;
-  isListExpanded = false;
-  showError = false;
-  frontDocumentImage: string = null;
-  backDocumentImage: string = null;
-  faceImage: string = null;
-  ocrData = null;
+  message: string = '';
+  isListExpanded: boolean = false;
+  showError: boolean = false;
 
   constructor(
     phingersService: PhingersService,
@@ -42,13 +35,31 @@ export class HomePage {
   onInitOperation = async () => {
     this.message = '';
     await this.coreService.initOperation()
-    .then((result: CoreResult) => console.log(result), (err: string) => console.log(err));
+    .then((result: CoreResult) => {
+      console.log(result);
+      if (result.finishStatus == SdkFinishStatus.Error) {
+        this.printError(result);
+      }
+    }, 
+    (err: string) => console.log(err))
+    .finally(() => {
+      this.changeDetection.detectChanges()
+    });
   }
 
   onInitSession = async () => {
     this.message = '';
     await this.coreService.initSession()
-    .then((result: CoreResult) => console.log(result), (err: any) => console.log(err));
+    .then((result: CoreResult) => {
+      console.log(result);
+      if (result.finishStatus == SdkFinishStatus.Error) {
+        this.printError(result);
+      }
+    }, 
+    (err: any) => console.log(err))
+    .finally(() => {
+      this.changeDetection.detectChanges()
+    });
   }
 
   onCloseSession = async () => {
