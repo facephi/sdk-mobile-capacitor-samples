@@ -4,10 +4,8 @@ import { CoreService } from '../services/core/core.service';
 import { SdkFinishStatus, SdkErrorType, CoreResult, SdkCorePlugin } from '@facephi/sdk-core-capacitor';
 import { fphi_str_activity_result_error, fphi_str_camera_error, fphi_str_camera_permission_denied, fphi_str_component_controller_application_error, fphi_str_component_controller_error, fphi_str_extractor_license_error, fphi_str_generic_bad_extractor_conf, fphi_str_generic_control_not_initialized, fphi_str_generic_extraction_license, fphi_str_generic_unexpected_captured, fphi_str_hardware_error, fphi_str_init_proccess_error, fphi_str_init_session_error, fphi_str_initialization_error, fphi_str_license_checker_error_invalid_component_license, fphi_str_license_checker_error_invalid_license, fphi_str_license_string_error, fphi_str_licensing_error_api_key_forbidden, fphi_str_licensing_error_app_id_invalid, fphi_str_licensing_error_license_not_found, fphi_str_licensing_error_package_name, fphi_str_network_connection, fphi_str_nfc_error, fphi_str_nfc_error_data, fphi_str_nfc_error_disabled, fphi_str_nfc_error_illegal_argument, fphi_str_nfc_error_not_supported, fphi_str_nfc_error_tag_lost, fphi_str_no_data_error, fphi_str_no_operation_created_error, fphi_str_permission_denied, fphi_str_phacturas_capture_error, fphi_str_phingers_autofocus_failure, fphi_str_phingers_camera_failure, fphi_str_phingers_capture_failure, fphi_str_phingers_configuration_failure, fphi_str_phingers_fingerprint_capture_failure, fphi_str_phingers_fingerprint_template_io_error, fphi_str_phingers_licensing_failure, fphi_str_phingers_liveness_failure, fphi_str_phingers_no_detected, fphi_str_phingers_unique_userid_not_specified, fphi_str_qr_capture_error, fphi_str_qr_generation_error, fphi_str_resourses_not_found, fphi_str_sdk_init_flow, fphi_str_sdk_not_initialized, fphi_str_settings_permission_denied, fphi_str_stopped_manually, fphi_str_timeout, fphi_str_token_error, fphi_str_tracking_error, fphi_str_unknown_error, fphi_str_video_error } from '../constants';
 import { NfcResult } from '@facephi/sdk-nfc-capacitor';
-import { timeout } from 'rxjs';
 import { FacephiService } from '../api/api-rest/facephi.service';
 import { registerPlugin } from '@capacitor/core';
-import { LoadingController } from '@ionic/angular';
 
 const SdkCore = registerPlugin<SdkCorePlugin>("SdkCore");
 
@@ -26,16 +24,9 @@ export class HomePage
   nfcService: NfcService;
   apiRest: FacephiService;
 
-  message = '';
-  bestImageCropped?: string = null;
-  tokenFaceImage?: string = null;
-  bestImage?: string = null;
+  message: string = '';
   isListExpanded: boolean = false;
   showError: boolean = false;
-  frontDocumentImage: string = null;
-  backDocumentImage: string = null;
-  faceImage: string = null;
-  ocrData = null;
   //listener: any;
   listener: any = SdkCore.addListener('core.flow', (response: any) => 
   {
@@ -57,10 +48,10 @@ export class HomePage
   }
 
   toogleChange = () => {
-        // Query for the toggle that is used to change between themes
-        const toggle = document.getElementsByTagName('body');
-        console.log(toggle[0].getAttribute("color-theme"));
-        toggle[0].setAttribute("color-theme", "light");
+    // Query for the toggle that is used to change between themes
+    const toggle = document.getElementsByTagName('body');
+    console.log(toggle[0].getAttribute("color-theme"));
+    toggle[0].setAttribute("color-theme", "light");
   }
 
   onLaunchFlow = async () => 
@@ -112,76 +103,6 @@ export class HomePage
     (err: any) => console.log(err));
   }
 
-  onGetExtraData = async () => {
-    this.message  = '';
-    let loading   = await this.loadingCtrl.create({
-      message: 'Requesting ...',
-    });
-
-    await this.coreService.getExtraData()
-    .then((result: CoreResult) => {
-      console.log(result);
-
-      if (result.finishStatus == SdkFinishStatus.Ok) 
-      {
-        if (this.bestImage !== null &&  result.data !== null) 
-        {
-          /*this.apiRest.passiveLivenessEvaluate(result.data, this.bestImage)
-          .pipe(timeout(30000))
-          .subscribe({
-            next: (v) => console.log("passiveLivenessEvaluate", v),
-            error: (e) => console.error(e),
-            complete: () => console.info('complete') 
-          });*/
-          
-          loading.present();
-          this.apiRest.passiveLivenessEvaluate(result.data, this.bestImage)
-          .then((res: any) => 
-          { 
-            console.log("passiveLivenessEvaluate", res) 
-          })
-          .catch((e: any) => 
-          { 
-            console.error(e) 
-          })
-          .finally(() => 
-          { 
-            console.info('passiveLivenessEvaluate -> complete') 
-            loading.dismiss();
-          });
-        }
-
-        if (this.bestImage !== null &&  result.data !== null &&  this.tokenFaceImage !== null) 
-        {
-          /*this.apiRest.authenticateFacialDocument(this.tokenFaceImage, result.data, this.bestImage)        
-          .pipe(timeout(30000))
-          .subscribe({
-            next: (v) => console.log("authenticateFacialDocument", v),
-            error: (e) => console.error(e),
-            complete: () => console.info('complete') 
-          });*/
-
-          loading.present();
-          this.apiRest.authenticateFacialDocument(this.tokenFaceImage, result.data, this.bestImage)
-          .then((res: any) => 
-          { 
-            console.log("authenticateFacialDocument", res) 
-          })
-          .catch((e: any) => 
-          { 
-            console.error(e) 
-          })
-          .finally(() => 
-          { 
-            console.info('authenticateFacialDocument -> complete') 
-            loading.dismiss();
-          });
-        }
-      }
-    }, 
-    (err: any) => console.log(err));
-  }
-
   onLaunchNfcProcess = async () => {
     this.message = '';
     await this.nfcService.launchNfc()
@@ -192,28 +113,6 @@ export class HomePage
     this.message = '';
     await this.coreService.initOperation()
     .then((result: CoreResult) => console.log(result), (err: string) => console.log(err));
-  }
-
-  /** Method implemented only for debug purposes */
-  processSuccessResult = (result: any) => {
-    const message =
-   `* FinishStatus: ' ${ result.finishStatus }
-    * TypeError: ' ${ result.typeError }
-    * TemplateRaw length: ' ${ result.templateRaw.length }
-    * BestImage length: ' ${ result.bestImage.length }
-    * BestImageCropped length: ' ${ result.bestImageCropped.length }
-    * EyesGlassesScore: ' ${ result.eyeGlassesScore }
-    * TemplateScore: ' ${ result.templateScore }`;
-    console.log(message);
-  }
-
-  onErrorSelphiExtraction = (result: any) => 
-  {
-    console.log('SELPHI_ERROR:' + result);
-    this.showError = true;
-    //this.message  = SdkErrorType[result['errorType']];
-    //this.message    = result['errorType'];
-    this.printError(result);
   }
 
   private printError(data: any)
