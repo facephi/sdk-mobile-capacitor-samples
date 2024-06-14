@@ -10,7 +10,6 @@ export const fphi_str_stopped_manually = "User cancelled the process.";
 export const fphi_str_timeout = "Process finished by timeout condition.";
 export const fphi_str_unknown_error = "Unexpected error.";
 
-
 // ERROR TYPE MESSAGES
 export const fphi_str_camera_permission_denied = "Camera permission are disabled.";
 export const fphi_str_settings_permission_denied = "Settings permission are disabled.";
