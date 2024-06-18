@@ -22,7 +22,7 @@ export class VideoidService {
 
     return SdkVideoId.startVideoId({
       mode: VideoMode.FACE_DOCUMENT_FRONT,
-      time: 10,
+      sectionTime: 5000,
     });
   }
 }
