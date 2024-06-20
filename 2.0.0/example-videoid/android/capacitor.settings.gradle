@@ -14,11 +14,8 @@ project(':capacitor-keyboard').projectDir = new File('../node_modules/@capacitor
 include ':capacitor-status-bar'
 project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
 
-include ':sdk-core'
-project(':sdk-core').projectDir = new File('../node_modules/sdk-core/android')
+include ':facephi-sdk-core-capacitor'
+project(':facephi-sdk-core-capacitor').projectDir = new File('../../sdk-core/android')
 
-include ':sdk-tracking'
-project(':sdk-tracking').projectDir = new File('../node_modules/sdk-tracking/android')
-
-include ':sdk-videoid'
-project(':sdk-videoid').projectDir = new File('../node_modules/sdk-videoid/android')
+include ':facephi-sdk-videoid-capacitor'
+project(':facephi-sdk-videoid-capacitor').projectDir = new File('../../sdk-videoid/android')

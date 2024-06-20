@@ -16,15 +16,11 @@
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
 	},
 	{
-		"pkg": "sdk-core",
+		"pkg": "@facephi/sdk-core-capacitor",
 		"classpath": "com.sdkmobile.core.SdkCorePlugin"
 	},
 	{
-		"pkg": "sdk-tracking",
-		"classpath": "com.sdkmobile.tracking.SdkTrackingPlugin"
-	},
-	{
-		"pkg": "sdk-videoid",
+		"pkg": "@facephi/sdk-videoid-capacitor",
 		"classpath": "com.sdkmobile.videoid.SdkVideoIdPlugin"
 	}
 ]
