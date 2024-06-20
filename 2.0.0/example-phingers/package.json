@@ -26,8 +26,6 @@
     "@capacitor/ios": "^4.5.0",
     "@capacitor/keyboard": "4.1.0",
     "@capacitor/status-bar": "4.1.0",
-    "@facephi/sdk-core-capacitor": "file:../sdk-core",
-    "@facephi/sdk-phingers-capacitor": "file:../sdk-phingers",
     "@ionic/angular": "^6.3.8",
     "rxjs": "~7.5.7",
     "tslib": "^2.4.1",
