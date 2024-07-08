@@ -42,9 +42,9 @@ export class CoreService
     let pluginLicenseApiKey: string = (Capacitor.getPlatform() === 'ios') ? LICENSE_APIKEY_IOS : LICENSE_APIKEY_ANDROID;
 
     const widgetConfig: InitSessionConfiguration = {
-      license: pluginLicense,
-      //licenseUrl: LICENSE_URL,
-      //licenseApiKey: pluginLicenseApiKey,
+      //license: pluginLicense,
+      licenseUrl: LICENSE_URL,
+      licenseApiKey: pluginLicenseApiKey,
       enableFlow: false,
       enableTracking: true
     };
