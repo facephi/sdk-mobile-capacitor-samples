@@ -1,6 +1,6 @@
 platform :ios, '13.0'
 
-plugin 'cocoapods-art', :sources => ['cocoa-dev-fphi']
+plugin 'cocoapods-art', :sources => ['cocoa-pro-fphi']
 source 'https://cdn.cocoapods.org/'
 
 use_frameworks!
