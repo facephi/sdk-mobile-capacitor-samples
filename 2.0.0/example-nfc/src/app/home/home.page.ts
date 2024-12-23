@@ -53,12 +53,6 @@ export class HomePage
     toggle[0].setAttribute("color-theme", "light");
   }
 
-  onLaunchTokenize = async () => {
-    this.message = '';
-    await this.coreService.tokenize()
-    .then((result: CoreResult) => console.log(result), (err: any) => console.log(err));
-  }
-
   onInitSession = async () => {
     this.message = '';
     await this.coreService.initSession()
