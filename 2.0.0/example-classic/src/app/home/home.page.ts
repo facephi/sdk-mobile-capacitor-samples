@@ -140,12 +140,6 @@ export class HomePage
     (err: any) => console.log(err));
   }
 
-  onLaunchTokenize = async () => {
-    this.message = '';
-    await this.coreService.tokenize()
-    .then((result: CoreResult) => console.log(result), (err: any) => console.log(err));
-  }
-
   onInitSession = async () => {
     this.message = '';
     await this.coreService.initSession()

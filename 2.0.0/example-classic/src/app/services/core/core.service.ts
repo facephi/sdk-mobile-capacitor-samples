@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Capacitor, registerPlugin } from '@capacitor/core';
-import { SdkCorePlugin, CoreResult, InitSessionConfiguration, InitOperationConfiguration, SdkOperationType, TokenizeConfiguration, InitFlowConfiguration } from '@facephi/sdk-core-capacitor';
+import { SdkCorePlugin, CoreResult, InitSessionConfiguration, InitOperationConfiguration, SdkOperationType, InitFlowConfiguration } from '@facephi/sdk-core-capacitor';
 import { CUSTOMER_ID, LICENSE_APIKEY_ANDROID, LICENSE_APIKEY_IOS, LICENSE_STRING_ANDROID, LICENSE_STRING_IOS, LICENSE_URL } from 'src/app/constants';
 
 const SdkCore = registerPlugin<SdkCorePlugin>("SdkCore");
@@ -57,17 +57,6 @@ export class CoreService
     console.log('Launching getExtraData...');
 
     return SdkCore.getExtraData();
-  }
-
-  tokenize = async (): Promise<CoreResult> => 
-  {
-    console.log('Launching tokenize...');
-
-    const widgetConfig: TokenizeConfiguration = {
-      stringToTokenize: "something to tokenize...",
-    };
-
-    return SdkCore.tokenize(widgetConfig);
   }
 
   initFlow = async (): Promise<CoreResult> => 
