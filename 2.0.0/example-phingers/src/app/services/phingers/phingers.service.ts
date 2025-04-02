@@ -14,8 +14,6 @@ export class PhingersService
   /**
    * Method that launches the plugin using the authentication with liveness passive mode.
    * @param reticleOrientation  Comment for parameter ´debug´.
-   * @param returnFullFrameImage  Comment for parameter ´livenessMode´.
-   * @param returnProcessedImage  Comment for parameter ´resourcesPath´.
    * @returns Promise with a JSON string.
    */
   launchPhingers = async (): Promise<PhingersResult> => 
@@ -24,10 +22,6 @@ export class PhingersService
 
     return SdkPhingers.startPhingers({
       reticleOrientation: PhingersCaptureOrientation.THUMB,
-      returnFullFrameImage: true,
-      returnProcessedImage: true,
-      returnRawImage: true,
-      useFlash: true,
       useLiveness: true,
     });
   }
