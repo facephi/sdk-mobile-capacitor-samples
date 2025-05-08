@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="bluefp">
+      <ion-title class="labelTitleSelphi">
+          Phingers Example
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+        <ion-grid>
+            <ion-row class="errorRowSelphid" *ngIf="message != ''">
+                <ion-col class='titleColSelphid'>
+                    <ion-label style="color: crimson;" class='labelTitleSelphid'>{{message}}</ion-label>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="buttonColSdk">
+                    <ion-button class="buttonSdk" (click)='onLaunchPhingersProcess()' color="bluefp">Phingers</ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="buttonColSdk">
+                    <ion-button class="buttonSdk" (click)='onInitSession()' color="bluefp">InitSession</ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="buttonColSdk">
+                    <ion-button class="buttonSdk" (click)='onInitOperation()' color="bluefp">InitOperation</ion-button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="buttonColSdk">
+                    <ion-button class="buttonSdk" (click)='onCloseSession()' color="bluefp">CloseSession</ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+</ion-content>

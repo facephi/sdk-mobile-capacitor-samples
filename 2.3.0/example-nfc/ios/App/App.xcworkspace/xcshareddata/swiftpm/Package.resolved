@@ -1,0 +1,41 @@
+{
+  "pins" : [
+    {
+      "identity" : "sdk-core-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/facephi/SDK-Core-SPM",
+      "state" : {
+        "branch" : "master",
+        "revision" : "859cabd45d6897ccf38850c977bbabe627a22e05"
+      }
+    },
+    {
+      "identity" : "sdk-sdk-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/facephi/SDK-Sdk-SPM",
+      "state" : {
+        "branch" : "master",
+        "revision" : "ff5955c12d15786f1e7ddc8a135cd022ab2418e0"
+      }
+    },
+    {
+      "identity" : "sdk-selphi_component-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/facephi/SDK-Selphi_component-SPM",
+      "state" : {
+        "revision" : "16c6e994eed8ebd522316beb3009408498e2bc28",
+        "version" : "1.0.7"
+      }
+    },
+    {
+      "identity" : "sdk-tracking_component-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/facephi/SDK-Tracking_component-SPM",
+      "state" : {
+        "revision" : "7c21f6467d940f9f8d477c7df32466e7e4282ab4",
+        "version" : "1.0.14"
+      }
+    }
+  ],
+  "version" : 2
+}
