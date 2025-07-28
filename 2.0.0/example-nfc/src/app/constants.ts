@@ -1,8 +1,8 @@
 export const CUSTOMER_ID                = "capacitor@facephi.com";
 export const LICENSE_URL                = "";
 
-export const LICENSE_APIKEY_ANDROID     = ""; // com.facephi.sdk.demo
-export const LICENSE_APIKEY_IOS         = ""; // com.facephi.sdk.demo
+export const LICENSE_APIKEY_ANDROID     = "";
+export const LICENSE_APIKEY_IOS         = "";
 
 export const LICENSE_STRING_IOS     = "{}";
 export const LICENSE_STRING_ANDROID = "{}";
