@@ -45,7 +45,6 @@ export class CoreService
       //license: pluginLicense,
       licenseUrl: LICENSE_URL,
       licenseApiKey: pluginLicenseApiKey,
-      enableFlow: false,
       enableTracking: true
     };
 

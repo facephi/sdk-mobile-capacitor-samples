@@ -243,7 +243,7 @@ export class HomePage
 
   //  Formatting output
   onSuccessSelphiExtraction = (result: any) => {
-    console.log('Receiving selphi success event...');
+    console.log('Receiving selphi success event...', result);
     if (result !== null && result) {
       switch (result.finishStatus) {
         case SdkFinishStatus.Ok: // OK
@@ -303,7 +303,7 @@ export class HomePage
 
    //  Formatting output
   onSuccessSelphIDCapture = (result: any) => {
-    console.log('Receiving selphID success event...');
+    console.log('Receiving selphID success event...', result);
     if (result !== null && result) {
       switch (result.finishStatus) 
       {

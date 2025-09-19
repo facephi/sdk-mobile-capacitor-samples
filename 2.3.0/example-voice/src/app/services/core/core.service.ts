@@ -45,7 +45,6 @@ export class CoreService
       //license: licenseByString,
       licenseUrl: LICENSE_URL,
       licenseApiKey: licenseApiKey,
-      enableFlow: false,
       enableTracking: true
     };
 
