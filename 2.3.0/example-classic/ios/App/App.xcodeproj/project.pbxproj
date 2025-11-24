@@ -548,8 +548,6 @@
 					"-framework",
 					"\"licenseCheckerComponent\"",
 					"-framework",
-					"\"licensingComponent\"",
-					"-framework",
 					"\"nanopb\"",
 					"-framework",
 					"\"sdk\"",
