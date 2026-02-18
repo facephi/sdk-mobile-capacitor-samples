@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-      kotlinVersion = "2.1.0" //ADD THIS FOR FACEPHI SDK >= 2.0.2
+      kotlinVersion = "2.2.0" //ADD THIS FOR FACEPHI SDK >= 2.0.2
     }
     repositories {
         google()
