@@ -171,16 +171,9 @@ export class HomePage
 
       if (result.finishStatus == SdkFinishStatus.Ok) 
       {
+        /*
         if (this.bestImage !== "" &&  result.data !== "") 
         {
-          /*this.apiRest.passiveLivenessEvaluate(result.data, this.bestImage)
-          .pipe(timeout(30000))
-          .subscribe({
-            next: (v) => console.log("passiveLivenessEvaluate", v),
-            error: (e) => console.error(e),
-            complete: () => console.info('complete') 
-          });*/
-
           loading.present();
           this.apiRest.passiveLivenessEvaluate(result.data, this.bestImage)
           .then((res: any) => 
@@ -200,14 +193,6 @@ export class HomePage
 
         if (this.bestImage !== "" &&  result.data !== "" &&  this.tokenFaceImage !== "") 
         {
-          /*this.apiRest.authenticateFacialDocument(this.tokenFaceImage, result.data, this.bestImage)        
-          .pipe(timeout(30000))
-          .subscribe({
-            next: (v) => console.log("authenticateFacialDocument", v),
-            error: (e) => console.error(e),
-            complete: () => console.info('complete') 
-          });*/
-
           loading.present();
           this.apiRest.authenticateFacialDocument(this.tokenFaceImage, result.data, this.bestImage)
           .then((res: any) => 
@@ -224,6 +209,7 @@ export class HomePage
             loading.dismiss();
           });
         }
+        */
       }
     }, 
     (err: any) => console.log(err));
@@ -242,16 +228,33 @@ export class HomePage
   }
 
   //  Formatting output
-  onSuccessSelphiExtraction = (result: any) => {
+  onSuccessSelphiExtraction = (result: SelphiFaceResult) => {
     console.log('Receiving selphi success event...', result);
-    if (result !== null && result) {
-      switch (result.finishStatus) {
+    if (result !== null && result) 
+    {
+      switch (result.finishStatus) 
+      {
         case SdkFinishStatus.Ok: // OK
           this.processSuccessResult(result); // Logging the info for debug purposes
           this.bestImageCropped = this.URI_JPEG_HEADER + result.bestImageCropped;
           this.bestImage        = result.bestImage;
           this.showError        = false;
           //this.message        = 'Preview selfie';
+
+          if (result.iad !== null) {
+            this.apiRest.callIAD(result.iad)
+              .then(
+                (res: any) => {
+                  console.log("callIAD", res)
+                }
+              )
+              .catch(
+                (e: any) => {
+                  console.error(e)
+                }
+              );
+          }
+          
           break;
 
         case SdkFinishStatus.Error: // Error
