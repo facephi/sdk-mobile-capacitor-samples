@@ -29,7 +29,7 @@ export class SelphidService
       scanMode: SelphIDScanMode.Search,
       documentType: SelphIDDocumentType.IDCard,
       showTutorial: false,
-      generateRawImages: false,
+      generateRawImages: true,
       specificData: `AR|<ALL>`,
       wizardMode: true,
     };

@@ -9,73 +9,64 @@ export class FacephiService {
 
   constructor( private http: HttpClient ) { }
  
-  url: string   = '';
-  url2: string  = '';
-  headers: any  = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT',
-    'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers',
-    //'Content-type': 'application/json',
-    //'Access-Control-Allow-Headers': 'Content-Type',
-    //'Access-Control-Request-Headers': 'X-Custom-Header',
-    //'Access-Control-Allow-Methods': 'POST',
-    //'Access-Control-Allow-Origin' : '*',
-    'client-id' : '', 
-    'token-app' : '',
-    'x-api-key' : '',
-    //'app-name'  : ''  
-  };
+  url: string = 'https://api.xxx-xxx.io';
 
-  evaluateLiveness( img: any ) 
+  async extractDocumentData( tokenOCR: string )
   {
-    //const headers = { 'Authorization': JSON.stringify('this.user'), 'client-id': '31', 'token-app': '' }
-    const body    = { bestImage: img }
-
-    return this.http.post<any[]>(
-      this.url + '/evaluateLiveness', body, this.headers,
-    );
-  }
-
-  authenticateFacial( tokenFaceImage: any, templateRaw: any ) 
-  {
-    //const headers = { 'Authorization': JSON.stringify('this.user'), 'client-id': '31', 'token-app': '' }
-    const body = { token1: tokenFaceImage, token2: templateRaw, "method": 5 }
-    
-    return this.http.post<any[]>(
-      this.url + '/authenticateFacial', body, this.headers,
-    );
-  }
-
-  passiveLivenessEvaluate( data: string, bestImage: string ) 
-  {
-    /*const body = {'extraData': data, 'image': bestImage};
-    
-    return this.http.post<any[]>(
-      this.url2 + '/api/v1/selphid/passive-liveness/evaluate', body, {},
-    );*/
-
     const options = {
-      url: this.url2 + '/v5/api/v1/selphid/passive-liveness/evaluate',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8', },
-      data: {'extraData': data, 'image': bestImage},
+      url: this.url + '/services/extractDocumentData',
+      headers: { 'x-api-key': 'xxx', 'Content-Type': 'application/json; charset=UTF-8', },
+      data: { 'tokenOcr': tokenOCR }
     };
-  
+
+    console.log(options);
     return CapacitorHttp.post(options);
   }
 
-  authenticateFacialDocument( tokenFaceImage: string, data: string, bestImage: string ) 
+  async authenticalFacial(faceImage: string, bestImage: string)
   {
-    /*const body = {'documentTemplate': tokenFaceImage, 'extraData': data, 'image1': bestImage};
-    
-    return this.http.post<any[]>(
-      this.url2 + '/api/v1/selphid/authenticate-facial/document/face-image', body, {},
-    );*/
-
     const options = {
-      url: this.url2 + '/v5/api/v1/selphid/authenticate-facial/document/face-image',
-      headers: { 'Content-Type': 'application/json; charset=UTF-8', },
-      data: { 'documentTemplate': tokenFaceImage, 'extraData': data, 'image1': bestImage }
+      url: this.url + '/authenticateFacial',
+      headers: { 'x-api-key': 'xxx', 'Content-Type': 'application/json; charset=UTF-8', },
+      data: { 'token1': faceImage, 'token2': bestImage, 'method': 1 }
+    };
+
+    console.log(options);
+    return CapacitorHttp.post(options);
+  }
+
+  async documentValidation(rawFrontDocument: string, rawBackDocument: string)
+  {
+    const options = {
+      url: this.url + '/documentValidation',
+      headers: { 'x-api-key': 'xxx', 'Content-Type': 'application/json; charset=UTF-8', },
+      data: {
+        'country': "AR",
+        'idType': "ID_CARD",
+        'documentRawImageMimeType': 'image/jpeg',
+        'documentFrontRawImage': rawFrontDocument,
+        'documentBackRawImage': rawBackDocument 
+      }
+    };
+
+    console.log(options);
+    return CapacitorHttp.post(options);
+  }
+
+  async documentValidationStatus( 
+    maxIntentos: number         = 10, 
+    intervalo: number           = 2000, 
+    scanReferenceResult: string = '', 
+    typeResult: string          = '' 
+  )
+  {
+    const options = {
+      url: this.url + '/documentValidation',
+      headers: { 'x-api-key': 'xxx', 'Content-Type': 'application/json; charset=UTF-8', },
+      data: {
+        'scanReference': scanReferenceResult,
+        'type': typeResult,
+      }
     };
 
     console.log(options);

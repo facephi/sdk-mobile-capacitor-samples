@@ -29,16 +29,19 @@ export class HomePage
   coreService: CoreService;
   apiRest: FacephiService;
 
-  message = '';
-  bestImageCropped?: string = "";
-  tokenFaceImage?: string = "";
-  bestImage?: string = "";
-  isListExpanded: boolean = false;
-  showError: boolean = false;
-  frontDocumentImage: string = "";
-  backDocumentImage: string = "";
-  faceImage: string = "";
-  ocrData = [];
+  isListExpanded: boolean     = false;
+  showError: boolean          = false;
+  message: string             = "";
+  bestImageCropped?: string   = "";
+  frontDocumentImage: string  = "";
+  backDocumentImage: string   = "";
+  tokenOCR: string            = "";
+  rawFrontDocument?: string   = null;
+  rawBackDocument?: string    = null;
+  bestImage?: string          = null;
+  tokenFaceImage?: string     = null;
+  faceImage?: string          = null;
+  ocrData                     = [];
 
   listener: any = SdkCore.addListener('core.flow', (response: any) => 
   {
@@ -171,21 +174,13 @@ export class HomePage
 
       if (result.finishStatus == SdkFinishStatus.Ok) 
       {
-        if (this.bestImage !== "" &&  result.data !== "") 
+        if (this.tokenOCR !== "") 
         {
-          /*this.apiRest.passiveLivenessEvaluate(result.data, this.bestImage)
-          .pipe(timeout(30000))
-          .subscribe({
-            next: (v) => console.log("passiveLivenessEvaluate", v),
-            error: (e) => console.error(e),
-            complete: () => console.info('complete') 
-          });*/
-
           loading.present();
-          this.apiRest.passiveLivenessEvaluate(result.data, this.bestImage)
+          this.apiRest.extractDocumentData(this.tokenOCR)
           .then((res: any) => 
           { 
-            console.log("passiveLivenessEvaluate", res) 
+            console.log("extractDocumentData", res) 
           })
           .catch((e: any) => 
           { 
@@ -193,26 +188,55 @@ export class HomePage
           })
           .finally(() => 
           { 
-            console.info('passiveLivenessEvaluate -> complete') 
+            console.info('extractDocumentData -> complete') 
+            loading.dismiss();
+          });
+        }
+        
+        if (this.bestImage !== null && this.faceImage !== null) 
+        {
+          loading.present();
+          this.apiRest.authenticalFacial(this.faceImage, this.bestImage)
+          .then((res: any) => 
+          { 
+            console.log("authenticalFacial", res) 
+          })
+          .catch((e: any) => 
+          { 
+            console.error(e) 
+          })
+          .finally(() => 
+          { 
+            console.info('authenticalFacial -> complete') 
             loading.dismiss();
           });
         }
 
-        if (this.bestImage !== "" &&  result.data !== "" &&  this.tokenFaceImage !== "") 
+        if (this.rawBackDocument !== null && this.rawFrontDocument !== null) 
         {
-          /*this.apiRest.authenticateFacialDocument(this.tokenFaceImage, result.data, this.bestImage)        
-          .pipe(timeout(30000))
-          .subscribe({
-            next: (v) => console.log("authenticateFacialDocument", v),
-            error: (e) => console.error(e),
-            complete: () => console.info('complete') 
-          });*/
-
           loading.present();
-          this.apiRest.authenticateFacialDocument(this.tokenFaceImage, result.data, this.bestImage)
+          this.apiRest.documentValidation(this.rawFrontDocument, this.rawBackDocument)
           .then((res: any) => 
           { 
-            console.log("authenticateFacialDocument", res) 
+            console.log("documentValidation", res)
+            if (res && res.data !== null && res.data.scanReference !== null && res.data.typeResult !== null) 
+            {
+              loading.present();
+              this.apiRest.documentValidationStatus(res.data.scanReference, res.data.typeResult)
+              .then((res: any) => 
+              { 
+                console.log("documentValidationStatus", res)
+              })
+              .catch((e: any) => 
+              { 
+                console.error(e) 
+              })
+              .finally(() => 
+              { 
+                console.info('documentValidationStatus -> complete') 
+                loading.dismiss();
+              });
+            }
           })
           .catch((e: any) => 
           { 
@@ -220,7 +244,7 @@ export class HomePage
           })
           .finally(() => 
           { 
-            console.info('authenticateFacialDocument -> complete') 
+            console.info('documentValidation -> complete') 
             loading.dismiss();
           });
         }
@@ -232,13 +256,19 @@ export class HomePage
   onLaunchInitOperationProcess = async () => {
     this.message = '';
     await this.coreService.initOperation()
-    .then((result: CoreResult) => console.log(result), (err: string) => console.log(err));
+    .then(
+      (result: CoreResult) => console.log(result), 
+      (err: string) => console.log(err)
+    );
   }
 
   onLaunchSelphiProcess = async () => {
     this.message = '';
     await this.selphiFaceService.launchSelphiAuthentication()
-    .then((result: SelphiFaceResult) => this.onSuccessSelphiExtraction(result), (err: string) => this.onErrorSelphiExtraction(err));
+    .then(
+      (result: SelphiFaceResult) => this.onSuccessSelphiExtraction(result), 
+      (err: string) => this.onErrorSelphiExtraction(err)
+    );
   }
 
   //  Formatting output
@@ -269,15 +299,13 @@ export class HomePage
   }
 
   /** Method implemented only for debug purposes */
-  processSuccessResult = (result: any) => {
+  processSuccessResult = (result: SelphiFaceResult) => {
     const message =
    `* FinishStatus: ' ${ result.finishStatus }
-    * TypeError: ' ${ result.typeError }
+    * errorType: ' ${ result.errorType }
     * TemplateRaw length: ' ${ result.templateRaw.length }
     * BestImage length: ' ${ result.bestImage.length }
-    * BestImageCropped length: ' ${ result.bestImageCropped.length }
-    * EyesGlassesScore: ' ${ result.eyeGlassesScore }
-    * TemplateScore: ' ${ result.templateScore }`;
+    * BestImageCropped length: ' ${ result.bestImageCropped.length }`;
     console.log(message);
   }
 
@@ -294,15 +322,14 @@ export class HomePage
     this.message = '';
 
     await this.selphidService.launchSelphidCapture()
-    .then((result: SelphIDResult) => this.onSuccessSelphIDCapture(result), (err: string) => this.onErrorSelphIDCapture(err));
-    this.frontDocumentImage = "";
-    this.backDocumentImage  = "";
-    this.faceImage          = "";
-    this.isListExpanded     = false;
+    .then(
+      (result: SelphIDResult) => this.onSuccessSelphIDCapture(result), 
+      (err: string) => this.onErrorSelphIDCapture(err))
+    .finally(() => console.info('launchSelphidCapture -> complete'));
   }
 
    //  Formatting output
-  onSuccessSelphIDCapture = (result: any) => {
+  onSuccessSelphIDCapture = (result: SelphIDResult) => {
     console.log('Receiving selphID success event...', result);
     if (result !== null && result) {
       switch (result.finishStatus) 
@@ -312,20 +339,21 @@ export class HomePage
           this.processSuccessResultSelphID(result); // Logging the info for debug purposes
           this.frontDocumentImage = this.URI_JPEG_HEADER + result.frontDocumentImage;
           this.backDocumentImage  = this.URI_JPEG_HEADER + result.backDocumentImage;
-          this.faceImage          = (typeof result.faceImage === 'undefined' || result.faceImage === '') ? "./assets/images/image_no_available.png" : this.URI_JPEG_HEADER + result.faceImage;
-          this.ocrData            = result.documentData;
+          this.faceImage          = result.faceImage === null ? "./assets/images/image_no_available.png" : this.URI_JPEG_HEADER + result.faceImage;
+          this.ocrData            = result.documentData as any;
           this.isListExpanded     = true;
           this.showError          = false;
           this.message            = 'Preview selfie';
           this.tokenFaceImage     = result.tokenFaceImage;
+          this.tokenOCR           = result.tokenOCR;
+          this.rawFrontDocument   = result.rawFrontDocument == null ? null : this.URI_JPEG_HEADER + result.rawFrontDocument;
+          this.rawBackDocument    = result.rawBackDocument == null ? null : this.URI_JPEG_HEADER + result.rawBackDocument;
           break;
 
         case SdkFinishStatus.Error: // Error
           console.log('SELPHID_ERROR:' + result);
           this.showError  = true;
-          //this.message    = result['errorType'];
           this.printError(result);
-
           break;
 
         default:
@@ -340,14 +368,12 @@ export class HomePage
 
 
   /** Method implemented only for debug purposes */
-  processSuccessResultSelphID = (result: any) => {
+  processSuccessResultSelphID = (result: SelphIDResult) => {
     const _message =
     `* FinishStatus: ' ${ result.finishStatus }
       * TypeError: ' ${ result.errorType }
-      * TokenFaceImage length: ' ${ (typeof result.tokenFaceImage === 'undefined' || result.tokenFaceImage === '') ? 0 : result.tokenFaceImage.length }
+      * TokenFaceImage length: ' ${ result.tokenFaceImage === null ? 0 : result.tokenFaceImage.length }
       * TokenOCR length: ' ${ result.tokenOCR.length }
-      * TokenDocumentFront length: ' ${ (typeof result.tokenBackDocumentImage === 'undefined' || result.tokenBackDocumentImage === '') ? 0 : result.tokenBackDocumentImage.length }
-      * TokenDocumentBack length: ' ${ (typeof result.tokenFrontDocumentImage === 'undefined' || result.tokenFrontDocumentImage === '') ? 0 : result.tokenFrontDocumentImage.length }
       * MatchingSidesScore: ' ${ result.matchingSidesScore }`;
     console.log(this.URI_JPEG_HEADER + result.faceImage, '');
     console.log(_message);

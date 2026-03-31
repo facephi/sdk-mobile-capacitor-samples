@@ -75,7 +75,7 @@
         <ion-row class="imageRowSelphid">
             <ion-col size="3"></ion-col>
             <ion-col size="6" class="documentImgColSelphid">
-                <ion-img [src]="faceImage" [class.hidden]="faceImage == ''" onerror="this.src='./assets/images/image_no_available.png'"></ion-img>
+                <ion-img [src]="faceImage" [class.hidden]="faceImage == '' || faceImage == null" onerror="this.src='./assets/images/image_no_available.png'"></ion-img>
             </ion-col>
             <ion-col size="3"></ion-col>
         </ion-row>
@@ -85,7 +85,7 @@
                 <div class="scroll-content" scrollY="true">
                     <ion-list>
                         <ion-item style="font-size: 0.8rem;">DATOS OBTENIDOS</ion-item>
-                        <ion-item *ngFor=" let item of ocrData | keyvalue " style="font-size: 0.7rem;">
+                        <ion-item *ngFor="let item of ocrData | keyvalue " style="font-size: 0.7rem;">
                             <ion-label text-capitalize item-left>{{item.key}}</ion-label>
                             <ion-label item-right text-right>{{item.value | uppercase}}</ion-label>
                         </ion-item>

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { registerPlugin } from '@capacitor/core';
 import { SELPHI_RESOURCES_PATH } from './selphi.service.constants';
-import { SdkSelphiPlugin, SelphiFaceResult, SelphiFaceLivenessMode, SelphiFaceConfiguration, SelphiCompressFormat } from '@facephi/sdk-selphi-capacitor';
+import { SdkSelphiPlugin, SelphiFaceResult, SelphiFaceLivenessMode, SelphiFaceConfiguration } from '@facephi/sdk-selphi-capacitor';
 
 const SdkSelphi = registerPlugin<SdkSelphiPlugin>("SdkSelphi");
 
@@ -28,7 +28,9 @@ export class SelphiService {
       debug: false,
       livenessMode: SelphiFaceLivenessMode.Passive,
       resourcesPath: SELPHI_RESOURCES_PATH,
-      enableGenerateTemplateRaw: true
+      enableGenerateTemplateRaw: true,
+      showPreviousTip: false,
+      showTutorial: false
     }
     return SdkSelphi.startExtraction(config);
   }
