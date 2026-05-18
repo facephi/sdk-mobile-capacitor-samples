@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Capacitor, registerPlugin } from '@capacitor/core';
-import { SdkCorePlugin, CoreResult, InitSessionConfiguration, InitOperationConfiguration, SdkOperationType, InitFlowConfiguration } from '@facephi/sdk-core-capacitor';
+import { SdkCorePlugin, CoreResult, InitSessionConfiguration, InitOperationConfiguration, SdkOperationType, InitFlowConfiguration, SdkViewOrientation } from '@facephi/sdk-core-capacitor';
 import { CUSTOMER_ID, LICENSE_APIKEY_ANDROID, LICENSE_APIKEY_IOS, LICENSE_STRING_ANDROID, LICENSE_STRING_IOS, LICENSE_URL } from 'src/app/constants';
 
 const SdkCore = registerPlugin<SdkCorePlugin>("SdkCore");
@@ -38,14 +38,16 @@ export class CoreService
   {
     console.log('Launching initSession...');
 
-    let pluginLicense: string = (Capacitor.getPlatform() === 'ios') ? LICENSE_STRING_IOS : LICENSE_STRING_ANDROID;
-    let pluginLicenseApiKey: string = (Capacitor.getPlatform() === 'ios') ? LICENSE_APIKEY_IOS : LICENSE_APIKEY_ANDROID;
+    let licenseByString: string = (Capacitor.getPlatform() === 'ios') ? LICENSE_STRING_IOS : LICENSE_STRING_ANDROID;
+    let licenseApiKey: string   = (Capacitor.getPlatform() === 'ios') ? LICENSE_APIKEY_IOS : LICENSE_APIKEY_ANDROID;
 
     const widgetConfig: InitSessionConfiguration = {
-      //license: pluginLicense,
+      // license: licenseByString,
       licenseUrl: LICENSE_URL,
-      licenseApiKey: pluginLicenseApiKey,
-      enableTracking: true
+      licenseApiKey: licenseApiKey,
+      enableTracking: true,
+      // internalOptions: {"key": "true"},
+      // orientation: SdkViewOrientation.FollowSystem
     };
 
     return SdkCore.initSession(widgetConfig);
@@ -58,12 +60,12 @@ export class CoreService
     return SdkCore.getExtraData();
   }
 
-  initFlow = async (): Promise<CoreResult> => 
+  initFlow = async (selectedFlowId: string): Promise<CoreResult> => 
   {
     console.log('Launching initFlow...');
 
     const widgetConfig: InitFlowConfiguration = {
-      flow: "FLOW_B",
+      flow: selectedFlowId,
       customerId: CUSTOMER_ID
     };
 
@@ -74,5 +76,11 @@ export class CoreService
   {
     console.log('Launching startFlow...');
     return SdkCore.startFlow();
+  };
+
+  getFlowIntegrationData = async (): Promise<CoreResult> => 
+  {
+    console.log('Launching getFlowIntegrationData...');
+    return SdkCore.getFlowIntegrationData();
   };
 }

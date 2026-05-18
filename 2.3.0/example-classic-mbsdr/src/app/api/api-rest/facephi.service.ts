@@ -29,6 +29,7 @@ export class FacephiService
       url: this.url,
       headers: { 'Content-Type': 'application/octet-stream', 'x-api-key': 'xxx' },
       data: iad,
+      dataType: 'file',
     };
 
     console.log(options);

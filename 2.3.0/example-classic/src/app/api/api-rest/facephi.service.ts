@@ -5,8 +5,8 @@ import { CapacitorHttp } from '@capacitor/core';
 @Injectable({
   providedIn: 'root'
 })
-export class FacephiService {
-
+export class FacephiService 
+{
   constructor( private http: HttpClient ) { }
  
   url: string = 'https://api.xxx-xxx.io';

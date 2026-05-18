@@ -1,9 +1,12 @@
-.hidden {
-  opacity: 0;
+.center {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.labelRowSelphi {
-  height: 25%;
+.hidden {
+  opacity: 0;
 }
 
 .imgRowSelphi {
@@ -11,13 +14,7 @@
 }
 
 .buttonRowSdk {
-  height: 10%;
-}
-
-.labelColSelphi {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  height: auto;
 }
 
 .imgColSelphi {
@@ -28,17 +25,12 @@
   border-radius: 10px;
 }
 
-.buttonColSdk {
-  display: flex;
-  justify-content: center;
-  margin: 1%;
-  align-items: center;
-}
-
 .buttonSdk {
   border-color: var(--ion-color-bluefp);
-  --border-radius: 20px;
-  width: 50%;
+  --border-radius: 5px;
+  width: 100%;
+  padding-left: 10%;
+  padding-right: 10%;
   font-size: 1.1em;
   text-transform: capitalize;
   font-family: 'Circular Std Bold' !important;
@@ -92,6 +84,34 @@
 .buttonRowSelphid {
   height: 10%;
   margin-top: 5%;
+}
+
+/* Sheet modal OCR: scroll vertical del listado (no usar listColSelphid con height:100% aquí). */
+/* cssClass del ion-modal aplica al host del overlay */
+::ng-deep ion-modal.ocr-sheet-modal {
+  --border-radius: 12px 12px 0 0;
+
+  ion-header ion-toolbar {
+    --min-height: 44px;
+    --padding-top: 2px;
+    --padding-bottom: 2px;
+  }
+
+  ion-header ion-title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .ocr-sheet-ion-content {
+    --padding-top: 8px;
+    --padding-bottom: env(safe-area-inset-bottom, 16px);
+  }
+
+  .ocr-sheet-list {
+    margin: 0;
+    padding-bottom: 8px;
+    background: transparent;
+  }
 }
 
 .documentImgColSelphid {

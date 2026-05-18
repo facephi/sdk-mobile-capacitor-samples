@@ -28,7 +28,9 @@ export class SelphiService {
       debug: false,
       livenessMode: SelphiFaceLivenessMode.Passive,
       resourcesPath: SELPHI_RESOURCES_PATH,
-      enableGenerateTemplateRaw: true
+      enableGenerateTemplateRaw: true,
+      showPreviousTip: false,
+      showTutorial: false
     }
     return SdkSelphi.startExtraction(config);
   }

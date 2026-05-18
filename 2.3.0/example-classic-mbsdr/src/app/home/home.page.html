@@ -3,154 +3,168 @@
         <ion-title class="labelTitleSelphi">
             Sdk Mobile
         </ion-title>
-
-        <!--
-        <ion-buttons slot="end">
-            <ion-button (click)="mostrarPopOverMainMenu( $event )">
-              <ion-icon slot="icon-only" name="ellipsis-vertical" size="small"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-        -->
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <ion-grid [style.height.%]="isListExpanded ? 150 : 100">
-        <!-- BestImage -->
-        <ion-row class="titleRowSelphid">
-            <ion-col size="2"></ion-col>
-            <ion-col class='titleColSelphid'>
-                <ion-label class='labelTitleSelphid'>BestImage</ion-label>
-            </ion-col>
-            <ion-col size="2"></ion-col>
-        </ion-row>
-        <ion-row class="imgRowSelphi">
-            <ion-col size="2"></ion-col>
-            <ion-col size="8" class="documentImgColSelphid">
-                <ion-img [src]="bestImageCropped" [class.hidden]="bestImageCropped == ''"></ion-img>
-            </ion-col>
-            <ion-col size="2"></ion-col>
-        </ion-row>
-        <!-- Front Title -->
-        <ion-row class="titleRowSelphid">
-            <ion-col size="2"></ion-col>
-            <ion-col class='titleColSelphid'>
-                <ion-label class='labelTitleSelphid'>Frente</ion-label>
-            </ion-col>
-            <ion-col size="2"></ion-col>
-        </ion-row>
-        <!-- Front Image -->
-        <ion-row class="imageRowSelphid">
-            <ion-col size="2"></ion-col>
-            <ion-col size="8" class="documentImgColSelphid">
-                <ion-img [src]="frontDocumentImage" [class.hidden]="frontDocumentImage == ''"></ion-img>
-            </ion-col>
-            <ion-col size="2"></ion-col>
-        </ion-row>
-        <!-- Back Title -->
-        <ion-row class="titleRowSelphid">
-            <ion-col size="2"></ion-col>
-            <ion-col class='titleColSelphid'>
-                <ion-label class='labelTitleSelphid'>Dorso</ion-label>
-            </ion-col>
-            <ion-col size="2"></ion-col>
-        </ion-row>
-        <!-- Back Image -->
-        <ion-row class="imageRowSelphid">
-            <ion-col size="2"></ion-col>
-            <ion-col size="8" class="documentImgColSelphid">
-                <ion-img [src]="backDocumentImage" [class.hidden]="backDocumentImage == ''"></ion-img>
-            </ion-col>
-            <ion-col size="2"></ion-col>
-        </ion-row>
-        <!-- Face Title -->
-        <ion-row class="titleRowSelphid">
-            <ion-col size="2"></ion-col>
-            <ion-col class="titleColSelphid" style='text-align: center'>
-                <ion-label class='labelTitleSelphid'>Selfie</ion-label>
-            </ion-col>
-            <ion-col size="2"></ion-col>
-        </ion-row>
-        <!-- Face Image -->
-        <ion-row class="imageRowSelphid">
-            <ion-col size="3"></ion-col>
-            <ion-col size="6" class="documentImgColSelphid">
-                <ion-img [src]="faceImage" [class.hidden]="faceImage == ''" onerror="this.src='./assets/images/image_no_available.png'"></ion-img>
-            </ion-col>
-            <ion-col size="3"></ion-col>
-        </ion-row>
-        <!-- List and button  -->
-        <ion-row *ngIf="isListExpanded; else elseBlock" class="listRowSelphid">
-            <ion-col class="listColSelphid">
-                <div class="scroll-content" scrollY="true">
-                    <ion-list>
-                        <ion-item style="font-size: 0.8rem;">DATOS OBTENIDOS</ion-item>
-                        <ion-item *ngFor=" let item of ocrData | keyvalue " style="font-size: 0.7rem;">
-                            <ion-label text-capitalize item-left>{{item.key}}</ion-label>
-                            <ion-label item-right text-right>{{item.value | uppercase}}</ion-label>
-                        </ion-item>
-                    </ion-list>
-                </div>
-            </ion-col>
-        </ion-row>
-        <ng-template #elseBlock>
-            <ion-row *ngIf="showError" class="errorRowSelphid">
-                <ion-col size="1"></ion-col>
+<ion-content fullscreen="true">
+    <div class="center">
+        <ion-grid>
+            <!-- BestImage -->
+            <ion-row class="titleRowSelphid" *ngIf="selphiResult?.bestImageCropped != null">
+                <ion-col size="2"></ion-col>
                 <ion-col class='titleColSelphid'>
-                    <ion-label style="color: crimson;" class='labelTitleSelphid'>{{message}}</ion-label>
+                    <ion-label class='labelTitleSelphid'>BestImage</ion-label>
                 </ion-col>
-                <ion-col size="1"></ion-col>
+                <ion-col size="2"></ion-col>
             </ion-row>
-        </ng-template>
-
-        <ion-row class="buttonRowSdk">
-            <ion-col size="1"></ion-col>
-            <ion-col size="10" class="buttonColSdk">
+            <ion-row class="imgRowSelphi" *ngIf="selphiResult?.bestImageCropped != null">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8" class="documentImgColSelphid">
+                    <ion-img [src]="selphiResult?.bestImageCropped"></ion-img>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+            <!-- Front Title -->
+            <ion-row class="titleRowSelphid" *ngIf="selphidResult?.frontDocumentImage != null">
+                <ion-col size="2"></ion-col>
+                <ion-col class='titleColSelphid'>
+                    <ion-label class='labelTitleSelphid'>Frente</ion-label>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+            <!-- Front Image -->
+            <ion-row class="imageRowSelphid" *ngIf="selphidResult?.frontDocumentImage != null">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8" class="documentImgColSelphid">
+                    <ion-img [src]="selphidResult?.frontDocumentImage"></ion-img>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+            <!-- Back Title -->
+            <ion-row class="titleRowSelphid" *ngIf="selphidResult?.backDocumentImage != null">
+                <ion-col size="2"></ion-col>
+                <ion-col class='titleColSelphid'>
+                    <ion-label class='labelTitleSelphid'>Dorso</ion-label>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+            <!-- Back Image -->
+            <ion-row class="imageRowSelphid" *ngIf="selphidResult?.backDocumentImage != null">
+                <ion-col size="2"></ion-col>
+                <ion-col size="8" class="documentImgColSelphid">
+                    <ion-img [src]="selphidResult?.backDocumentImage"></ion-img>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+            <!-- Face Title -->
+            <ion-row class="titleRowSelphid" *ngIf="selphidResult?.faceImage != null">
+                <ion-col size="2"></ion-col>
+                <ion-col class="titleColSelphid" style='text-align: center'>
+                    <ion-label class='labelTitleSelphid'>Selfie</ion-label>
+                </ion-col>
+                <ion-col size="2"></ion-col>
+            </ion-row>
+            <!-- Face Image -->
+            <ion-row class="imageRowSelphid" *ngIf="selphidResult?.faceImage != null">
+                <ion-col size="3"></ion-col>
+                <ion-col size="6" class="documentImgColSelphid">
+                    <ion-img [src]="selphidResult?.faceImage" onerror="this.src='./assets/images/image_no_available.png'"></ion-img>
+                </ion-col>
+                <ion-col size="3"></ion-col>
+            </ion-row>
+            <ion-row *ngIf="message != ''">
+                <ion-label style="color: crimson;" class='labelTitleSelphid'>{{ message }}</ion-label>
+            </ion-row>
+            <ion-row class="buttonRowSdk" *ngIf="selphidResult != null">
+                <ion-button class="buttonSdk" (click)="showOcrDataResults()" color="bluefp">Show OCR's</ion-button>
+            </ion-row>
+            <ion-row class="buttonRowSdk">
                 <ion-button class="buttonSdk" (click)='onLaunchSelphiProcess()' color="bluefp">Selphi</ion-button>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-        <ion-row class="buttonRowSdk">
-            <ion-col size="1"></ion-col>
-            <ion-col size="10" class="buttonColSdk">
+            </ion-row>
+            <ion-row class="buttonRowSdk">
                 <ion-button class="buttonSdk" (click)='onLaunchSelphIDProcess()' color="bluefp">Selphid</ion-button>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-        <ion-row class="buttonRowSdk">
-            <ion-col size="1"></ion-col>
-            <ion-col size="10" class="buttonColSdk">
+            </ion-row>
+            <ion-row class="buttonRowSdk">
                 <ion-button class="buttonSdk" (click)='onLaunchInitOperationProcess()' color="bluefp">InitOperation</ion-button>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-        <ion-row class="buttonRowSdk">
-            <ion-col size="1"></ion-col>
-            <ion-col size="10" class="buttonColSdk">
+            </ion-row>
+            <ion-row class="buttonRowSdk" *ngIf="selphidResult != null && selphiResult != null">
                 <ion-button class="buttonSdk" (click)='onGetExtraData()' color="bluefp">GetExtraData</ion-button>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-        <ion-row class="buttonRowSdk">
-            <ion-col size="1"></ion-col>
-            <ion-col size="10" class="buttonColSdk">
+            </ion-row>
+            <ion-row class="buttonRowSdk">
                 <ion-button class="buttonSdk" (click)='onInitSession()' color="bluefp">InitSession</ion-button>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-        <ion-row class="buttonRowSdk">
-            <ion-col size="1"></ion-col>
-            <ion-col size="10" class="buttonColSdk">
+            </ion-row>
+            <ion-row class="buttonRowSdk">
                 <ion-button class="buttonSdk" (click)='onCloseSession()' color="bluefp">CloseSession</ion-button>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-        <ion-row class="buttonRowSdk">
-            <ion-col size="1"></ion-col>
-            <ion-col size="10" class="buttonColSdk">
+            </ion-row>
+            <ion-row class="buttonRowSdk" *ngIf="flows.length > 0">
                 <ion-button class="buttonSdk" (click)='onLaunchFlow()' color="bluefp">Start Flow</ion-button>
-            </ion-col>
-            <ion-col size="1"></ion-col>
-        </ion-row>
-    </ion-grid>
+            </ion-row>
+            <ion-row class="buttonRowSdk">
+                <ion-button class="buttonSdk" (click)='launchGetFlowIntegrationData()' color="bluefp">Get Flows</ion-button>
+            </ion-row>
+        </ion-grid>
+    </div>
 </ion-content>
+
+<ion-modal
+    cssClass="ocr-sheet-modal"
+    [isOpen]="isOcrSheetOpen"
+    [breakpoints]="[0, 0.35, 0.55, 0.75, 1]"
+    [initialBreakpoint]="1"
+    [backdropDismiss]="true"
+    handleBehavior="cycle"
+    (didDismiss)="onOcrSheetDismiss()">
+    <ng-template>
+        <ion-header class="sheet-modal-header" [translucent]="false">
+            <ion-toolbar color="bluefp">
+                <ion-title>Datos Obtenidos</ion-title>
+                <ion-buttons slot="end">
+                    <ion-button size="small" fill="clear" (click)="closeOcrSheet()">Close</ion-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ocr-sheet-ion-content" [scrollY]="true">
+            <ion-list class="ocr-sheet-list listRowSelphid" lines="none">
+                <ion-item *ngFor="let item of selphidResult?.documentData | keyvalue" style="font-size: 0.7rem;">
+                    <ion-label class="ion-text-capitalize">{{ item.key }}</ion-label>
+                    <ion-label slot="end" class="ion-text-end">{{ $any(item.value) | uppercase }}</ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ng-template>
+</ion-modal>
+
+<ion-modal
+    cssClass="ocr-sheet-modal"
+    [isOpen]="isFlowsSheetOpen"
+    [breakpoints]="[0, 0.35, 0.55, 0.75, 1]"
+    [initialBreakpoint]="1"
+    [backdropDismiss]="true"
+    handleBehavior="cycle"
+    (didDismiss)="onFlowsSheetDismissed()">
+    <ng-template>
+        <ion-header class="sheet-modal-header" [translucent]="false">
+            <ion-toolbar color="bluefp">
+                <ion-title>Flujos disponibles</ion-title>
+                <ion-buttons slot="end">
+                    <ion-button size="small" fill="clear" (click)="closeFlowsSheet()">Cerrar</ion-button>
+                </ion-buttons>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content class="ocr-sheet-ion-content" [scrollY]="true">
+            <ion-list class="ocr-sheet-list listRowSelphid" lines="full">
+                <ion-item
+                    *ngFor="let flow of flows"
+                    button
+                    detail="true"
+                    (click)="onSelectFlowFromSheet(flow)">
+                    <ion-label>
+                        <h3>{{ flow.name }}</h3>
+                        <p>ID: {{ flow.id }}</p>
+                        <p>Tipo: {{ flow.operationType }}</p>
+                    </ion-label>
+                </ion-item>
+            </ion-list>
+        </ion-content>
+    </ng-template>
+</ion-modal>
