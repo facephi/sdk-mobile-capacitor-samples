@@ -1,0 +1,10 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "example",
+	"webDir": "www",
+	"plugins": {
+		"CapacitorHttp": {
+			"enabled": true
+		}
+	}
+}

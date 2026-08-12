@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar color="bluefp">
+    <ion-title class="labelTitleSelphi">360 Behavior</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="centered-content">
+  <ion-grid class="centered-grid">
+    <ion-row class="titleRow">
+      <ion-col class="buttonColSdk">
+        <h1 class="screenTitle">Sign in</h1>
+        <p class="screenSubtitle">Behavior 360 sample</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="showError || localError" class="messageRowSdk">
+      <ion-col class="buttonColSdk">
+        <ion-label class="errorLabel">{{ localError || message }}</ion-label>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="buttonRowSdk">
+      <ion-col class="buttonColSdk" style="padding-left: 15%; padding-right: 15%;">
+        <ion-input
+          id="userInput"
+          type="text"
+          enterkeyhint="done"
+          placeholder="User"
+          fill="outline"
+          autocapitalize="off"
+          autocomplete="off"
+          [(ngModel)]="user">
+        </ion-input>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="buttonRowSdk" *ngIf="session !== ''">
+      <ion-col class="buttonColSdk">
+        <ion-button class="buttonSdk" color="bluefp" (click)="handleSubmit()">Login</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="buttonRowSdk" *ngIf="session === ''">
+      <ion-col class="buttonColSdk">
+        <ion-button class="buttonSdk" color="bluefp" (click)="launchInitialize()">Initialize</ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row class="buttonRowSdk" *ngIf="session !== ''">
+      <ion-col class="buttonColSdk">
+        <ion-button class="buttonSdk" color="bluefp" fill="outline" (click)="launchClearSession()">Clear Session</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
