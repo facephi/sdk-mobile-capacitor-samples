@@ -14,5 +14,17 @@
 	{
 		"pkg": "@capacitor/status-bar",
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
+	},
+	{
+		"pkg": "@facephi/sdk-core-capacitor",
+		"classpath": "com.sdkmobile.core.SdkCorePlugin"
+	},
+	{
+		"pkg": "@facephi/sdk-selphi-iad-capacitor",
+		"classpath": "com.sdkmobile.selphi.SdkSelphiPlugin"
+	},
+	{
+		"pkg": "@facephi/sdk-selphid-mbsdr-capacitor",
+		"classpath": "com.sdkmobile.selphid.SdkSelphidPlugin"
 	}
 ]

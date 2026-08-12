@@ -31,7 +31,7 @@ export class SelphidService
       showTutorial: false,
       generateRawImages: true,
       specificData: `AR|<ALL>`,
-      wizardMode: true,
+      wizardMode: true
     };
 
     console.log('Launching selphID widget...');

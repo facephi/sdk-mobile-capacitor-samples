@@ -30,7 +30,8 @@ export class SelphiService {
       resourcesPath: SELPHI_RESOURCES_PATH,
       enableGenerateTemplateRaw: true,
       showPreviousTip: false,
-      showTutorial: false
+      showTutorial: false,
+      params: { "IADPayloadSize": "Small" }
     }
     return SdkSelphi.startExtraction(config);
   }
