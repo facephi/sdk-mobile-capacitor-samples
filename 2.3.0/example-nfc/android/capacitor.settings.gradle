@@ -15,7 +15,7 @@ include ':capacitor-status-bar'
 project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
 
 include ':facephi-sdk-core-capacitor'
-project(':facephi-sdk-core-capacitor').projectDir = new File('../../sdk-core/android')
+project(':facephi-sdk-core-capacitor').projectDir = new File('../../2.10.0/sdk-core/android')
 
 include ':facephi-sdk-nfc-capacitor'
-project(':facephi-sdk-nfc-capacitor').projectDir = new File('../../sdk-nfc/android')
+project(':facephi-sdk-nfc-capacitor').projectDir = new File('../../2.10.0/sdk-nfc/android')

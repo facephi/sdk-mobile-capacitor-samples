@@ -2,5 +2,13 @@
 	"appId": "io.ionic.starter",
 	"appName": "example",
 	"webDir": "www",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"StatusBarPlugin",
+		"SdkCorePlugin",
+		"SdkPhingersPlugin"
+	]
 }
