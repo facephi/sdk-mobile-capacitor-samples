@@ -36,30 +36,10 @@
   font-family: 'Circular Std Bold' !important;
 }
 
-.imageSelphi {
-  --border-radius: 10px;
-}
-
 .labelTitleSelphi {
   width: 100%;
   text-align: center;
   font-size: 1.6em;
-  font-family: 'Circular Std Bold' !important;
-}
-
-.labelMessageSelphi {
-  width: 100%;
-  text-align: center;
-  font-size: 1.6em;
-  color: var(--ion-color-bluefp);
-  font-family: 'Circular Std Bold' !important;
-}
-
-.labelMessageErrorSelphi {
-  width: 100%;
-  text-align: center;
-  font-size: 1em;
-  color: var(--ion-color-danger);
   font-family: 'Circular Std Bold' !important;
 }
 
@@ -73,16 +53,6 @@
 
 .listRowSelphid {
   //height: 30%;
-  margin-top: 5%;
-}
-
-.errorRowSdk {
-  height: 10%;
-  margin-top: 5%;
-}
-
-.buttonRowSelphid {
-  height: 10%;
   margin-top: 5%;
 }
 
@@ -129,56 +99,9 @@
   align-items: center;
 }
 
-.listColSelphid {
-  display: list-item;
-  align-items: center;
-  justify-content: center;
-  padding-top: 5em;
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.buttonColSelphid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding-top: 5em;
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-}
-
-.buttonSelphid {
-  border-color: var(--ion-color-purplefp);
-  --border-radius: 20px;
-  width: 60%;
-  font-size: 1.1em;
-  text-transform: capitalize;
-  font-family: 'Circular Std Bold' !important;
-}
-
 .labelTitleSelphid {
   width: 100%;
   text-align: center;
   font-size: 1.3rem;
-  font-family: 'Circular Std Bold' !important;
-}
-
-.labelMessageSelphid {
-  width: 100%;
-  text-align: center;
-  font-size: 1.6em;
-  color: var(--ion-color-purplefp);
-  font-family: 'Circular Std Bold' !important;
-}
-
-.labelMessageErrorSelphid {
-  width: 100%;
-  text-align: center;
-  font-size: 1em;
-  color: var(--ion-color-purplefp);
   font-family: 'Circular Std Bold' !important;
 }
