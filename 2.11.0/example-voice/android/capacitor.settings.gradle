@@ -13,3 +13,9 @@ project(':capacitor-keyboard').projectDir = new File('../node_modules/@capacitor
 
 include ':capacitor-status-bar'
 project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacitor/status-bar/android')
+
+include ':facephi-sdk-core-capacitor'
+project(':facephi-sdk-core-capacitor').projectDir = new File('../../2.11.0/sdk-core/android')
+
+include ':facephi-sdk-voice-capacitor'
+project(':facephi-sdk-voice-capacitor').projectDir = new File('../../2.11.0/sdk-voice/android')
