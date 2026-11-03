@@ -152,8 +152,22 @@ export class HomePage implements OnInit
     this.message = '';
     await this.coreService.initSession()
     .then(
-      (result: CoreResult) => console.log(result), 
+      (result: CoreResult) => 
+      {
+        console.log(result);
+        if (result.finishStatus === SdkFinishStatus.Error) {
+          this.printError(result.errorType);
+        }
+        if (result.finishStatus === SdkFinishStatus.Ok) {
+          this.message = '';
+        }
+      },
       (err: any) => this.printError(err)
+    ).finally(
+      () => {
+        console.info('initSession -> complete');
+        this.changeDetection.detectChanges();
+      }
     );
   }
 
@@ -265,8 +279,22 @@ export class HomePage implements OnInit
     this.message = '';
     await this.coreService.initOperation()
     .then(
-      (result: CoreResult) => console.log(result),
+      (result: CoreResult) => 
+      {
+        console.log(result);
+        if (result.finishStatus === SdkFinishStatus.Error) {
+          this.printError(result.errorType);
+        }
+        if (result.finishStatus === SdkFinishStatus.Ok) {
+          this.message = '';
+        }
+      },
       (err: string) => this.printError(err)
+    ).finally(
+      () => {
+        console.info('initOperation -> complete');
+        this.changeDetection.detectChanges();
+      }
     );
   }
 
@@ -278,6 +306,11 @@ export class HomePage implements OnInit
     .then(
       (result: SelphiFaceResult) => this.onSuccessSelphiExtraction(result), 
       (err: string) => this.printError(err)
+    ).finally(
+      () => {
+        console.info('launchSelphiAuthentication -> complete');
+        this.changeDetection.detectChanges();
+      }
     );
   }
 
@@ -289,8 +322,7 @@ export class HomePage implements OnInit
     {
       switch (result.finishStatus) 
       {
-        case SdkFinishStatus.Ok: // OK
-          this.processSelphiSuccessResult(result); // Logging the info for debug purposes
+        case SdkFinishStatus.Ok:
           this.selphiResult                   = result;
           this.selphiResult!.bestImageCropped = this.URI_JPEG_HEADER + result.bestImageCropped;
           this.message                        = "";
@@ -332,20 +364,7 @@ export class HomePage implements OnInit
           this.printError('An error has ocurred. Read the log for more info');
           break;
       }
-      this.changeDetection.detectChanges();
     }
-  }
-
-  /** Method implemented only for debug purposes */
-  processSelphiSuccessResult = (result: SelphiFaceResult) => {
-    const message =
-   `* FinishStatus: ' ${ result.finishStatus }
-    * errorType: ' ${ result.errorType }
-    * TemplateRaw length: ' ${ result.templateRaw?.length }
-    * BestImage length: ' ${ result.bestImage?.length }
-    * BestImageCropped length: ' ${ result.bestImageCropped?.length }
-    * livenessDiagnostic: ' ${ result.livenessDiagnostic }`;
-    console.log(message);
   }
 
   onLaunchSelphIDProcess = async () => 
@@ -358,7 +377,11 @@ export class HomePage implements OnInit
       (result: SelphIDResult) => this.onSuccessSelphIDCapture(result), 
       (err: string) => this.printError(err)
     )
-    .finally(() => console.info('launchSelphidCapture -> complete'));
+    .finally(
+      () => {
+        console.info('launchSelphidCapture -> complete');
+        this.changeDetection.detectChanges();}
+    );
   }
 
   //  Formatting output
@@ -369,8 +392,7 @@ export class HomePage implements OnInit
       switch (result.finishStatus) 
       {
         case SdkFinishStatus.Ok: // OK
-          console.log(result.documentData);
-          this.processSuccessResultSelphID(result); // Logging the info for debug purposes
+          console.log(result);
           this.selphidResult                      = result;
           this.selphidResult!.frontDocumentImage  = this.URI_JPEG_HEADER + result.frontDocumentImage;
           this.selphidResult!.backDocumentImage   = this.URI_JPEG_HEADER + result.backDocumentImage;
@@ -388,18 +410,7 @@ export class HomePage implements OnInit
           this.printError('An error has ocurred. Read the log for more info');
           break;
       }
-      this.changeDetection.detectChanges();
     }
-  }
-
-  /** Method implemented only for debug purposes */
-  processSuccessResultSelphID = (result: SelphIDResult) => {
-    const _message =
-    `* FinishStatus: ' ${ result.finishStatus }
-      * errorType: ' ${ result.errorType }
-      * TokenFaceImage length: ' ${ (typeof result.tokenFaceImage === 'undefined' || result.tokenFaceImage === '') ? 0 : result.tokenFaceImage.length }
-      * MatchingSidesScore: ' ${ result.matchingSidesScore }`;
-    console.log(_message);
   }
 
   private printError(error: string)

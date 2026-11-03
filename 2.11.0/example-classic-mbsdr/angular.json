@@ -80,7 +80,10 @@
               "buildTarget": "app:build:production"
             },
             "development": {
-              "buildTarget": "app:build:development"
+              "buildTarget": "app:build:development",
+              "prebundle": {
+                "exclude": ["@ionic/angular", "@ionic/core"]
+              }
             },
             "ci": {
               "progress": false
