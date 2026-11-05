@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { NfcService } from '../services/nfc/nfc.service';
 import { CoreService } from '../services/core/core.service';
-import { SdkFinishStatus, SdkErrorType, CoreResult, SdkCorePlugin } from '@facephi/sdk-core-capacitor';
+import { SdkFinishStatus, CoreResult, SdkCorePlugin } from '@facephi/sdk-core-capacitor';
 import { NfcResult } from '@facephi/sdk-nfc-capacitor';
 import { FacephiService } from '../api/api-rest/facephi.service';
 import { registerPlugin } from '@capacitor/core';
@@ -9,10 +9,11 @@ import { registerPlugin } from '@capacitor/core';
 const SdkCore = registerPlugin<SdkCorePlugin>("SdkCore");
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-home',
+    templateUrl: 'home.page.html',
+    styleUrls: ['home.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HomePage 
 {

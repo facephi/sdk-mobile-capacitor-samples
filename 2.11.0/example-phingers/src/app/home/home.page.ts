@@ -1,14 +1,15 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
 import { PhingersService } from '../services/phingers/phingers.service';
 import { CoreService } from '../services/core/core.service';
-import { SdkErrorType, CoreResult, SdkFinishStatus } from '@facephi/sdk-core-capacitor';
+import { CoreResult, SdkFinishStatus } from '@facephi/sdk-core-capacitor';
 import { PhingersResult } from '@facephi/sdk-phingers-capacitor';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-home',
+    templateUrl: 'home.page.html',
+    styleUrls: ['home.page.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HomePage {
   // UriImage header for base64 images visualization.
