@@ -2,6 +2,8 @@ platform :ios, '15.0'
 
 plugin 'cocoapods-art', :sources => ['cocoa-pro-fphi']
 source 'https://cdn.cocoapods.org/'
+# Necesario para los componentes de video.
+source 'https://github.com/livekit/podspecs.git'
 
 use_frameworks!
 
