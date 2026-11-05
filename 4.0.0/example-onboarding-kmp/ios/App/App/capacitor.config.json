@@ -1,0 +1,16 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "example",
+	"webDir": "www/browser",
+	"plugins": {
+		"CapacitorHttp": {
+			"enabled": true
+		}
+	},
+	"packageClassList": [
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"StatusBarPlugin"
+	]
+}

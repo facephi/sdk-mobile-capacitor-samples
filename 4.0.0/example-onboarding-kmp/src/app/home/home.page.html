@@ -1,0 +1,492 @@
+<ion-header class="app-bar">
+    <ion-toolbar>
+        <ion-title>Onboarding</ion-title>
+        <ion-buttons slot="end">
+            <ion-button
+                fill="clear"
+                (click)="toggleTheme()"
+                [attr.aria-label]="isDarkMode ? 'Tema claro' : 'Tema oscuro'">
+                <ion-icon slot="icon-only" [name]="isDarkMode ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="home-content" [fullscreen]="true">
+    <div class="page">
+        <section class="hero">
+            <p class="hero-kicker">Identidad</p>
+            <h1>Verifica en un momento</h1>
+            <p>Rostro, documento y datos extra, en ese orden.</p>
+        </section>
+
+        <div class="banner" *ngIf="message">
+            <ion-icon name="alert-circle-outline" aria-hidden="true"></ion-icon>
+            <p>{{ message }}</p>
+        </div>
+
+        <header class="section-title">
+            <h2>Captura</h2>
+            <p>Elige el paso que quieres lanzar.</p>
+        </header>
+
+        <button
+            type="button"
+            class="action-card"
+            (pointerdown)="onSelphiPointerDown($event)"
+            (pointermove)="onSelphiPointerMove($event)"
+            (pointerup)="onSelphiPointerUp($event)"
+            (pointercancel)="onSelphiPointerUp($event)"
+            (contextmenu)="$event.preventDefault()"
+            (click)="onSelphiClick($event)">
+            <span class="action-icon">
+                <ion-icon name="happy-outline" aria-hidden="true"></ion-icon>
+            </span>
+            <span class="action-copy">
+                <span class="action-title">Selphi</span>
+                <span class="action-subtitle">Captura facial y prueba de vida</span>
+            </span>
+            <ion-icon
+                class="action-status"
+                [class.done]="selphiResult?.bestImageCropped"
+                [name]="selphiResult?.bestImageCropped ? 'checkmark-circle' : 'arrow-forward'"
+                aria-hidden="true"></ion-icon>
+        </button>
+
+        <button
+            type="button"
+            class="action-card"
+            (pointerdown)="onSelphidPointerDown($event)"
+            (pointermove)="onSelphidPointerMove($event)"
+            (pointerup)="onSelphidPointerUp($event)"
+            (pointercancel)="onSelphidPointerUp($event)"
+            (contextmenu)="$event.preventDefault()"
+            (click)="onSelphidClick($event)">
+            <span class="action-icon">
+                <ion-icon name="id-card-outline" aria-hidden="true"></ion-icon>
+            </span>
+            <span class="action-copy">
+                <span class="action-title">SelphID</span>
+                <span class="action-subtitle">Anverso, reverso y lectura del documento</span>
+            </span>
+            <ion-icon
+                class="action-status"
+                [class.done]="selphidDone"
+                [name]="selphidDone ? 'checkmark-circle' : 'arrow-forward'"
+                aria-hidden="true"></ion-icon>
+        </button>
+
+        <button type="button" class="filled-button" [disabled]="!extraDataEnabled" (click)="onGetExtraData()">
+            <ion-icon name="layers-outline" aria-hidden="true"></ion-icon>
+            Get ExtraData
+        </button>
+        <p class="hint" *ngIf="!extraDataEnabled">Se activa al tener rostro y documento.</p>
+
+        <ng-container *ngIf="hasResults">
+            <header class="section-title section-gap">
+                <h2>Resultados</h2>
+                <p>Lo que devolvió la última captura.</p>
+            </header>
+            <section class="surface">
+                <div class="result-block" *ngIf="selphiResult?.bestImageCropped">
+                    <p class="result-label">Rostro</p>
+                    <div class="portrait-frame">
+                        <img [src]="selphiResult?.bestImageCropped" alt="Rostro">
+                    </div>
+                </div>
+                <div class="result-block" *ngIf="selphidResult?.frontDocumentImage">
+                    <p class="result-label">Anverso</p>
+                    <div class="document-frame">
+                        <img [src]="selphidResult?.frontDocumentImage" alt="Anverso">
+                    </div>
+                </div>
+                <div class="result-block" *ngIf="selphidResult?.backDocumentImage">
+                    <p class="result-label">Reverso</p>
+                    <div class="document-frame">
+                        <img [src]="selphidResult?.backDocumentImage" alt="Reverso">
+                    </div>
+                </div>
+                <div class="result-block" *ngIf="selphidResult?.faceImage">
+                    <p class="result-label">Foto</p>
+                    <div class="document-frame portrait">
+                        <img [src]="selphidResult?.faceImage" alt="Foto">
+                    </div>
+                </div>
+                <button type="button" class="outline-button" *ngIf="(selphidResult?.documentData | keyvalue)?.length" (click)="showOcrDataResults()">
+                    <ion-icon name="document-text-outline" aria-hidden="true"></ion-icon>
+                    Datos del documento
+                </button>
+            </section>
+        </ng-container>
+
+        <header class="section-title section-gap">
+            <h2>Sesión</h2>
+            <p>La sesión se abre sola al entrar.</p>
+        </header>
+        <section class="surface flush">
+            <button type="button" class="menu-tile" (click)="onInitSession()">
+                <ion-icon name="play-circle-outline" aria-hidden="true"></ion-icon>
+                <span>Init Session</span>
+                <ion-icon class="chevron" name="chevron-forward" aria-hidden="true"></ion-icon>
+            </button>
+            <div class="menu-divider"></div>
+            <button type="button" class="menu-tile" (click)="onLaunchInitOperationProcess()">
+                <ion-icon name="flag-outline" aria-hidden="true"></ion-icon>
+                <span>Init Operation</span>
+                <ion-icon class="chevron" name="chevron-forward" aria-hidden="true"></ion-icon>
+            </button>
+            <div class="menu-divider"></div>
+            <button type="button" class="menu-tile danger" (click)="onCloseSession()">
+                <ion-icon name="log-out-outline" aria-hidden="true"></ion-icon>
+                <span>Close Session</span>
+                <ion-icon class="chevron" name="chevron-forward" aria-hidden="true"></ion-icon>
+            </button>
+        </section>
+
+        <header class="section-title section-gap">
+            <h2>Flujos</h2>
+            <p>O lanza un flujo ya configurado.</p>
+        </header>
+        <section class="surface flush">
+            <button type="button" class="menu-tile" (click)="launchGetFlowIntegrationData()">
+                <ion-icon name="git-network-outline" aria-hidden="true"></ion-icon>
+                <span>Get Flows</span>
+                <ion-icon class="chevron" name="chevron-forward" aria-hidden="true"></ion-icon>
+            </button>
+            <ng-container *ngIf="selectedFlowId">
+                <div class="menu-divider"></div>
+                <div class="flow-selected">
+                    <p class="flow-kicker">Flujo seleccionado</p>
+                    <p class="flow-id">{{ selectedFlowId }}</p>
+                    <button type="button" class="filled-button" (click)="onLaunchFlow()">
+                        <ion-icon name="flash-outline" aria-hidden="true"></ion-icon>
+                        Launch Flow
+                    </button>
+                </div>
+            </ng-container>
+        </section>
+    </div>
+</ion-content>
+
+<ion-modal
+    cssClass="sheet-modal"
+    [isOpen]="isOcrSheetOpen"
+    [breakpoints]="[0, 0.6]"
+    [initialBreakpoint]="0.6"
+    [backdropDismiss]="true"
+    [handle]="true"
+    (didDismiss)="onOcrSheetDismiss()">
+    <ng-template>
+        <div class="sheet">
+            <h2>Datos del documento</h2>
+            <div class="sheet-scroll">
+                <p class="sheet-empty" *ngIf="!(selphidResult?.documentData | keyvalue)?.length">No hay datos</p>
+                <div class="sheet-row" *ngFor="let item of selphidResult?.documentData | keyvalue">
+                    <p class="sheet-key">{{ item.key }}</p>
+                    <p class="sheet-value">{{ formatDocumentValue(item.value) }}</p>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</ion-modal>
+
+<ion-modal
+    cssClass="sheet-modal"
+    [isOpen]="isSelphiConfigOpen"
+    [breakpoints]="[0, 0.92]"
+    [initialBreakpoint]="0.92"
+    [backdropDismiss]="true"
+    [handle]="true"
+    (didDismiss)="onSelphiConfigDismiss()">
+    <ng-template>
+        <div class="sheet">
+            <h2>Configuración Selphi</h2>
+            <div class="sheet-scroll">
+                <label class="config-row">
+                    <span>LivenessMode</span>
+                    <select [(ngModel)]="selphiFaceService.settings.livenessMode">
+                        <option *ngFor="let option of livenessModeOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row">
+                    <span>ExtractionDuration</span>
+                    <select [(ngModel)]="selphiFaceService.settings.extractionDuration">
+                        <option *ngFor="let option of extractionDurationOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row">
+                    <span>CameraPreferred</span>
+                    <select [(ngModel)]="selphiFaceService.settings.cameraPreferred">
+                        <option *ngFor="let option of cameraOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row">
+                    <span>CameraShape</span>
+                    <select [(ngModel)]="selphiFaceService.settings.cameraShape">
+                        <option *ngFor="let option of cameraShapeOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row">
+                    <span>CompressFormat</span>
+                    <select [(ngModel)]="selphiFaceService.settings.compressFormat">
+                        <option *ngFor="let option of selphiCompressFormatOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row">
+                    <span>ProgressMode</span>
+                    <select [(ngModel)]="selphiFaceService.settings.progressMode">
+                        <option *ngFor="let option of progressModeOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row config-field">
+                    <span>JPG Quality</span>
+                    <input
+                        inputmode="numeric"
+                        [value]="selphiFaceService.settings.jpgQuality"
+                        (input)="onSelphiDigits('jpgQuality', $event)">
+                </label>
+
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('enableGenerateTemplateRaw')">
+                    <span>EnableGenerateTemplateRaw</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.enableGenerateTemplateRaw"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('iadEnabled')">
+                    <span>IadEnabled</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.iadEnabled"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('qrMode')">
+                    <span>EnableQrReader</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.qrMode"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('showTutorial')">
+                    <span>ShowTutorial</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.showTutorial"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('showPreviousTip')">
+                    <span>ShowPreviousTips</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.showPreviousTip"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('showResultAfterCapture')">
+                    <span>ShowResultAfterCapture</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.showResultAfterCapture"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('showDiagnostic')">
+                    <span>ShowDiagnostic</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.showDiagnostic"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphiFlag('vibrationEnabled')">
+                    <span>VibrationEnabled</span>
+                    <span class="switch" [class.on]="selphiFaceService.settings.vibrationEnabled"></span>
+                </button>
+
+                <ng-container *ngIf="selphiFaceService.settings.qrMode">
+                    <label class="config-row">
+                        <span>QrCameraPreferred</span>
+                        <select [(ngModel)]="selphiFaceService.settings.qrCameraPreferred">
+                            <option *ngFor="let option of cameraOptions" [ngValue]="option.value">{{ option.label }}</option>
+                        </select>
+                    </label>
+                    <label class="config-row config-field">
+                        <span>QrTimeout</span>
+                        <input
+                            inputmode="numeric"
+                            [value]="selphiFaceService.settings.qrTimeout"
+                            (input)="onSelphiDigits('qrTimeout', $event)">
+                    </label>
+                </ng-container>
+
+                <ng-container *ngIf="selphiFaceService.settings.livenessMode === 'MOVE'">
+                    <label class="config-row config-field">
+                        <span>MoveSuccessfulAttempts</span>
+                        <input
+                            inputmode="numeric"
+                            [value]="selphiFaceService.settings.moveSuccessfulAttempts"
+                            (input)="onSelphiDigits('moveSuccessfulAttempts', $event)">
+                    </label>
+                    <label class="config-row config-field">
+                        <span>MoveFailedAttempts</span>
+                        <input
+                            inputmode="numeric"
+                            [value]="selphiFaceService.settings.moveFailedAttempts"
+                            (input)="onSelphiDigits('moveFailedAttempts', $event)">
+                    </label>
+                    <label class="config-row config-field">
+                        <span>BundleTimeoutMs</span>
+                        <input
+                            inputmode="numeric"
+                            [value]="selphiFaceService.settings.bundleTimeoutMs"
+                            (input)="onSelphiDigits('bundleTimeoutMs', $event)">
+                    </label>
+                    <label class="config-row config-field">
+                        <span>MaxAttempts</span>
+                        <input
+                            inputmode="numeric"
+                            [value]="selphiFaceService.settings.maxAttempts"
+                            (input)="onSelphiDigits('maxAttempts', $event)">
+                    </label>
+                </ng-container>
+
+                <button type="button" class="outline-button" (click)="restoreSelphiSettings()">Restaurar valores</button>
+            </div>
+        </div>
+    </ng-template>
+</ion-modal>
+
+<ion-modal
+    cssClass="sheet-modal"
+    [isOpen]="isSelphidConfigOpen"
+    [breakpoints]="[0, 0.92]"
+    [initialBreakpoint]="0.92"
+    [backdropDismiss]="true"
+    [handle]="true"
+    (didDismiss)="onSelphidConfigDismiss()">
+    <ng-template>
+        <div class="sheet">
+            <h2>Configuración SelphID</h2>
+            <div class="sheet-scroll">
+                <p class="config-label">DocumentTypes</p>
+                <div class="config-chips">
+                    <button
+                        type="button"
+                        class="config-chip"
+                        *ngFor="let option of documentTypeOptions"
+                        [class.selected]="isDocumentTypeSelected(option.value)"
+                        (click)="toggleDocumentType(option.value)">
+                        {{ option.label }}
+                    </button>
+                </div>
+
+                <label class="config-row">
+                    <span>Capture Mode</span>
+                    <select [(ngModel)]="selphidService.settings.captureMode">
+                        <option *ngFor="let option of captureModeOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row">
+                    <span>Timeout</span>
+                    <select [(ngModel)]="selphidService.settings.timeout">
+                        <option *ngFor="let option of timeoutOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+
+                <button type="button" class="config-switch" (click)="toggleSelphidFlag('showTutorial')">
+                    <span>ShowTutorial</span>
+                    <span class="switch" [class.on]="selphidService.settings.showTutorial"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphidFlag('showPreviousTip')">
+                    <span>ShowPreviousTips</span>
+                    <span class="switch" [class.on]="selphidService.settings.showPreviousTip"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphidFlag('showResultAfterCapture')">
+                    <span>ShowResultAfterCapture</span>
+                    <span class="switch" [class.on]="selphidService.settings.showResultAfterCapture"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphidFlag('showDiagnostic')">
+                    <span>ShowDiagnostic</span>
+                    <span class="switch" [class.on]="selphidService.settings.showDiagnostic"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphidFlag('vibrationEnabled')">
+                    <span>VibrationEnabled</span>
+                    <span class="switch" [class.on]="selphidService.settings.vibrationEnabled"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphidFlag('generateRawImages')">
+                    <span>GenerateRawImages</span>
+                    <span class="switch" [class.on]="selphidService.settings.generateRawImages"></span>
+                </button>
+                <button type="button" class="config-switch" (click)="toggleSelphidFlag('showDocumentSelector')">
+                    <span>Show Document Selector</span>
+                    <span class="switch" [class.on]="selphidService.settings.showDocumentSelector"></span>
+                </button>
+
+                <ng-container *ngIf="selphidService.settings.showDocumentSelector">
+                    <p class="config-label">EnabledDocumentTypes</p>
+                    <div class="config-chips">
+                        <button
+                            type="button"
+                            class="config-chip"
+                            *ngFor="let option of documentTypeOptions"
+                            [class.selected]="isEnabledDocumentTypeSelected(option.value)"
+                            (click)="toggleEnabledDocumentType(option.value)">
+                            {{ option.label }}
+                        </button>
+                    </div>
+                    <label class="config-row config-field">
+                        <span>EnabledCountries</span>
+                        <input
+                            [value]="selphidService.settings.enabledCountries"
+                            (input)="onSelphidCountries($event)"
+                            autocomplete="off"
+                            autocapitalize="characters">
+                    </label>
+                    <p class="config-helper">Separados por coma. Vacío usa el valor del SDK.</p>
+                </ng-container>
+
+                <label class="config-row">
+                    <span>CompressFormat</span>
+                    <select [(ngModel)]="selphidService.settings.compressFormat">
+                        <option *ngFor="let option of compressFormatOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row config-field">
+                    <span>JPG Quality(integer).</span>
+                    <input
+                        inputmode="numeric"
+                        [value]="selphidService.settings.jpgQuality"
+                        (input)="onSelphidDigits('jpgQuality', $event)">
+                </label>
+                <label class="config-row">
+                    <span>ExtractorMode</span>
+                    <select [(ngModel)]="selphidService.settings.mode">
+                        <option *ngFor="let option of extractorModeOptions" [ngValue]="option.value">{{ option.label }}</option>
+                    </select>
+                </label>
+                <label class="config-row config-field">
+                    <span>PerAttemptToMs(ms)</span>
+                    <input
+                        inputmode="numeric"
+                        [value]="selphidService.settings.perAttemptTimeoutMs"
+                        (input)="onSelphidDigits('perAttemptTimeoutMs', $event)">
+                </label>
+                <label class="config-row config-field">
+                    <span>MaxAttempts</span>
+                    <input
+                        inputmode="numeric"
+                        [value]="selphidService.settings.maxAttempts"
+                        (input)="onSelphidDigits('maxAttempts', $event)">
+                </label>
+
+                <button type="button" class="outline-button" (click)="restoreSelphidSettings()">Restaurar valores</button>
+            </div>
+        </div>
+    </ng-template>
+</ion-modal>
+
+<ion-modal
+    cssClass="sheet-modal"
+    [isOpen]="isFlowsSheetOpen"
+    [breakpoints]="[0, 0.5]"
+    [initialBreakpoint]="0.5"
+    [backdropDismiss]="true"
+    [handle]="true"
+    (didDismiss)="onFlowsSheetDismissed()">
+    <ng-template>
+        <div class="sheet">
+            <h2>Flujos disponibles</h2>
+            <div class="sheet-scroll">
+                <p class="sheet-empty" *ngIf="flows.length === 0">No hay resultados</p>
+                <button
+                    type="button"
+                    class="flow-row"
+                    *ngFor="let flow of flows"
+                    [class.selected]="flow.id === selectedFlowId"
+                    (click)="onSelectFlowFromSheet(flow)">
+                    <span class="flow-copy">
+                        <span class="flow-name">{{ flow.name || '(sin nombre)' }}</span>
+                        <span class="flow-meta">{{ flow.id }}{{ flow.operationType ? ' · ' + flow.operationType : '' }}</span>
+                    </span>
+                    <ion-icon *ngIf="flow.id === selectedFlowId" name="checkmark-circle" aria-hidden="true"></ion-icon>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+</ion-modal>
