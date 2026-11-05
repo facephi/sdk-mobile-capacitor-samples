@@ -14,5 +14,13 @@
 	{
 		"pkg": "@capacitor/status-bar",
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
+	},
+	{
+		"pkg": "@facephi/sdk-core-capacitor",
+		"classpath": "com.sdkmobile.core.SdkCorePlugin"
+	},
+	{
+		"pkg": "@facephi/sdk-voice-capacitor",
+		"classpath": "com.sdkmobile.voice.SdkVoicePlugin"
 	}
 ]
