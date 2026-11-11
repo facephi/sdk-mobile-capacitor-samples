@@ -32,7 +32,6 @@ export class VoiceService
       phrases: 'hola mundo cruel|hola voice component',
       showTutorial: false,
       vibrationEnabled: true,
-      timeout: 50000,
       returnAudios: true,
       returnTokenizedAudios: true
     };

@@ -80,7 +80,18 @@ export class HomePage
   onLaunchNfcProcess = async () => {
     this.message = '';
     await this.nfcService.launchNfc()
-    .then((result: NfcResult) => console.log(result), (err: string) => console.log(err));
+    .then(
+      (result: NfcResult) => {
+        console.log(result);
+        if (result.finishStatus == SdkFinishStatus.Error) {
+          this.printError(result['errorType']);
+        }
+      }, 
+      (err: string) => console.log(err)
+    )
+    .finally(() => {
+      this.changeDetection.detectChanges()
+    });
   }
 
   onLaunchInitOperationProcess = async () => {

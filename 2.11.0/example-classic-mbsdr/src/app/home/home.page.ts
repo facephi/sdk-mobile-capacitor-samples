@@ -148,7 +148,8 @@ export class HomePage implements OnInit
     (err: any) => console.log(err));
   }
 
-  onInitSession = async () => {
+  onInitSession = async () => 
+  {
     this.message = '';
     await this.coreService.initSession()
     .then(
@@ -163,12 +164,10 @@ export class HomePage implements OnInit
         }
       },
       (err: any) => this.printError(err)
-    ).finally(
-      () => {
-        console.info('initSession -> complete');
-        this.changeDetection.detectChanges();
-      }
-    );
+    ).finally(() => {
+      console.info('initSession -> complete');
+      this.changeDetection.detectChanges();
+    });
   }
 
   onCloseSession = async () => 

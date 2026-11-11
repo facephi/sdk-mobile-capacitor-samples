@@ -31,7 +31,7 @@ export class NfcService
       docNumber: 'AAA439684',
       birthDate: '16/08/1979',
       expirationDate: '29/11/2022',
-      extractionTimeout: 5000,
+      extractionTimeout: 50000,
     };
     return config;
   }
