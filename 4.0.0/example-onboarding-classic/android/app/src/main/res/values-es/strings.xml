@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">example</string>
+  <string name="selphid_tip_message">Prueba en ES</string>
+  <string name="selphid_tip_message_alt">Focus your document inside the box. The photo will be taken automatically.</string>
+  <string name="selphid_tip_anim_id_desc">Animation of a mobile phone taking a photo of an identity document. The document appears horizontally, and the mobile phone vertically. A box appears on the mobile phone screen. When the document fits inside the box, the application takes a photo.</string>
+  <string name="selphid_tip_anim_pass_desc">Animation of a mobile phone taking a photo of a passport. The document appears horizontally, open on the page where the photo appears. The mobile phone in a vertical position. A box appears on the screen of the mobile phone. When the passport page fits inside the box, the application takes a photo.</string>
+  <string name="selphid_tip_title">Document photo</string>
+  <string name="selphid_tip_button">Start</string>
+  <string name="selphid_component_tip_button">Start</string>
+</resources>
